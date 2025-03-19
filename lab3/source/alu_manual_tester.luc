@@ -1,0 +1,109 @@
+module alu_manual_tester#(
+    CLK_FREQ ~ 1000 : CLK_FREQ > 0) 
+(
+    input clk,  // clock
+    input rst,  // reset
+    input io_button[5],
+    input io_dip[3][8],
+    output io_led[3][8],
+    output io_segment[8],
+    output io_select[4],
+    output seven_seg_value[32],
+    output zvn[3],
+    output state_no[3]
+) {
+    const SIZE = 32
+    sig a[SIZE]
+    sig b[SIZE]
+    sig alufn[6]
+    
+    // States to listen for user input and store a and b values
+    // Store 16 bits at a time to fill up 32 bits due to input limitation
+    enum States {
+        IDLE,
+        A_1_HALF,
+        A_2_HALF,
+        B_1_HALF,
+        B_2_HALF
+        
+    }
+    
+    .clk(clk) {
+        
+        .rst(rst) {
+        dff states[$width(States)](#INIT(States.IDLE))
+        dff a_1_half[SIZE/2](#INIT(0))
+        dff a_2_half[SIZE/2](#INIT(0))
+        dff b_1_half[SIZE/2](#INIT(0))
+        dff b_2_half[SIZE/2](#INIT(0))
+        }
+    }
+    
+    alu alu
+    
+    always {
+        // implement alu tester logic here
+        
+        alufn = io_dip[2][5:0]
+        a = c{a_1_half.q, a_2_half.q}
+        b = c{b_1_half.q, b_2_half.q}
+        
+        states.d = states.q
+        a_1_half.d = a_1_half.q
+        a_2_half.d = a_2_half.q
+        b_1_half.d = b_1_half.q
+        b_2_half.d = b_2_half.q
+        
+        alu.a = a
+        alu.b = b
+        alu.alufn = alufn
+        
+        io_led = 3x{{8h0}}
+        io_segment = 0
+        io_select = 4hF
+        
+        io_led[1] = alu.out[15:8]
+        io_led[0] = alu.out[7:0]
+        
+        seven_seg_value = alu.out
+        zvn = c{alu.z, alu.v, alu.n}
+        state_no = states.q
+        
+        case(states.q) {
+            States.IDLE:
+                a_1_half.d = 0
+                a_2_half.d = 0
+                b_1_half.d = 0
+                b_2_half.d = 0
+                if (io_button[1]) {
+                        states.d = States.A_1_HALF
+                    }
+            
+            States.A_1_HALF:
+                a_1_half.d = c{io_dip[1][7:0], io_dip[0][7:0]}
+                if (io_button[1]) {
+                        states.d = States.A_2_HALF
+                    }
+            
+            States.A_2_HALF:
+                a_2_half.d = c{io_dip[1][7:0], io_dip[0][7:0]}
+                if (io_button[1]) {
+                        states.d = States.B_1_HALF
+                    }
+            
+            States.B_1_HALF:
+                b_1_half.d = c{io_dip[1][7:0], io_dip[0][7:0]}
+                if (io_button[1]) {
+                        states.d = States.B_2_HALF
+                    }
+            
+            States.B_2_HALF:
+                b_2_half.d = c{io_dip[1][7:0], io_dip[0][7:0]}
+                if (io_button[1]) {
+                        states.d = States.IDLE
+                    }
+        }
+        
+        
+    }
+}
