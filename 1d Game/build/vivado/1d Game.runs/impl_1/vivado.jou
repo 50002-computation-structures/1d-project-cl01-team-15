@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:35:27 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Wed Apr 16 03:03:58 2025
+# Process ID         : 29512
+# Current directory  : C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.runs/impl_1
+# Command line       : vivado.exe -log alchitry_top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source alchitry_top.tcl -notrace
+# Log file           : C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.runs/impl_1/alchitry_top.vdi
+# Journal file       : C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.runs/impl_1\vivado.jou
+# Running On         : Amith_Zen
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26100
+# Processor Detail   : Intel(R) Core(TM) Ultra 7 155H
+# CPU Frequency      : 2995 MHz
+# CPU Physical cores : 16
+# CPU Logical cores  : 22
+# Host memory        : 33687 MB
+# Swap memory        : 7962 MB
+# Total Virtual      : 41649 MB
+# Available Virtual  : 4014 MB
+#-----------------------------------------------------------
+source alchitry_top.tcl -notrace

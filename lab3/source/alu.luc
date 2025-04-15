@@ -16,6 +16,7 @@ module alu (
     compare cmp
     divider div
     
+    
     always {       
         //setting inputs for all modules
         add.a = a
