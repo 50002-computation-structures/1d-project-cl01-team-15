@@ -13,8 +13,8 @@ module led_bar_handler #(
         output reg data,
         output reg done
     );
-    logic [31:0] R_794ceab6_r_1170659728;
-    logic [31:0] RR_794ceab6_r_1170659728;
+    logic [31:0] R_622865c8_r_1862311570;
+    logic [31:0] RR_622865c8_r_1862311570;
     logic update;
     logic clear;
     logic [23:0] color;
@@ -23,18 +23,18 @@ module led_bar_handler #(
     logic pixel_set_done;
     logic [($clog2(PIXEL_COUNT))-1:0] D_i_d, D_i_q = 0;
     logic D_setting_d, D_setting_q = 1'h1;
-    localparam _MP_PIXEL_COUNT_896104083 = PIXEL_COUNT;
+    localparam _MP_PIXEL_COUNT_830524097 = PIXEL_COUNT;
     logic M_strip_driver_update;
     logic [23:0] M_strip_driver_color;
     logic M_strip_driver_clear;
-    logic [($clog2(_MP_PIXEL_COUNT_896104083))-1:0] M_strip_driver_pixel_address;
+    logic [($clog2(_MP_PIXEL_COUNT_830524097))-1:0] M_strip_driver_pixel_address;
     logic M_strip_driver_data;
     logic M_strip_driver_next_pixel;
     logic M_strip_driver_reset;
     logic M_strip_driver_done;
     
     ws2812b_driver #(
-        .PIXEL_COUNT(_MP_PIXEL_COUNT_896104083)
+        .PIXEL_COUNT(_MP_PIXEL_COUNT_830524097)
     ) strip_driver (
         .clk(clk),
         .rst(rst),
@@ -64,8 +64,8 @@ module led_bar_handler #(
         M_strip_driver_clear = clear;
         D_i_d = D_i_q;
         pixel_index = D_i_q;
-        for (RR_794ceab6_r_1170659728 = 0; RR_794ceab6_r_1170659728 < PIXEL_COUNT; RR_794ceab6_r_1170659728 = RR_794ceab6_r_1170659728 + 1) begin
-      R_794ceab6_r_1170659728 = (0) + RR_794ceab6_r_1170659728 * (1);
+        for (RR_622865c8_r_1862311570 = 0; RR_622865c8_r_1862311570 < PIXEL_COUNT; RR_622865c8_r_1862311570 = RR_622865c8_r_1862311570 + 1) begin
+      R_622865c8_r_1862311570 = (0) + RR_622865c8_r_1862311570 * (1);
             if (D_i_q < level) begin
                 pixel_color[D_i_q] = 24'hff;
             end else begin

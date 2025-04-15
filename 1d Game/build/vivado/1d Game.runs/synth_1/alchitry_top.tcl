@@ -70,23 +70,36 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib -sv {
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/adder.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/alu.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/bin_to_dec.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/boolean.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/button_conditioner.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/button_input_handler.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/compare.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/counter.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/decoder.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/divider.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/duck_led_handler.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/edge_detector.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/fa.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/four_shifter.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/game_cu.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/game_datapath.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/game_regfiles.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/led_bar_handler.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/multi_seven_seg.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/multiplier.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/mux_2.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/mux_4.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/pipeline.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/rca.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/reset_conditioner.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/seven_seg.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/shifter.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/ws2812b_driver.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/x_bit_left_shifter.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/x_bit_right_shifter.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/alchitry_top.sv}
 }
 OPTRACE "Adding files" END { }

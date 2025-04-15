@@ -12,54 +12,54 @@ module button_input_handler (
         output reg valid,
         output reg [3:0] position
     );
-    logic [31:0] R_55fd2045_i;
-    logic [31:0] RR_55fd2045_i;
-    logic [31:0] R_461a62b2_i;
-    logic [31:0] RR_461a62b2_i;
-    localparam CLK_FREQ = 24'h989680;
+    logic [31:0] R_5e41735f_i;
+    logic [31:0] RR_5e41735f_i;
+    logic [31:0] R_195370c3_i;
+    logic [31:0] RR_195370c3_i;
+    localparam CLK_FREQ = 20'hf4240;
     logic [17:0] conditioned;
     logic [17:0] edges;
     logic validity;
     logic [8:0] active;
-    localparam logic [17:0][23:0] _MP_CLK_FREQ_1249631209 = {{24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680, 24'h989680}};
-    localparam _MP_MIN_DELAY_1249631209 = 5'h14;
-    localparam _MP_NUM_SYNC_1249631209 = 2'h2;
+    localparam logic [17:0][19:0] _MP_CLK_FREQ_1985189988 = {{20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240, 20'hf4240}};
+    localparam _MP_MIN_DELAY_1985189988 = 5'h14;
+    localparam _MP_NUM_SYNC_1985189988 = 2'h2;
     logic [17:0] M_btn_cond_in;
     logic [17:0] M_btn_cond_out;
     
-    genvar idx_0_1249631209;
+    genvar idx_0_1985189988;
     
     generate
-        for (idx_0_1249631209 = 0; idx_0_1249631209 < 18; idx_0_1249631209 = idx_0_1249631209 + 1) begin: forLoop_idx_0_1249631209
+        for (idx_0_1985189988 = 0; idx_0_1985189988 < 18; idx_0_1985189988 = idx_0_1985189988 + 1) begin: forLoop_idx_0_1985189988
             button_conditioner #(
-                .CLK_FREQ(_MP_CLK_FREQ_1249631209[idx_0_1249631209]),
-                .MIN_DELAY(_MP_MIN_DELAY_1249631209),
-                .NUM_SYNC(_MP_NUM_SYNC_1249631209)
+                .CLK_FREQ(_MP_CLK_FREQ_1985189988[idx_0_1985189988]),
+                .MIN_DELAY(_MP_MIN_DELAY_1985189988),
+                .NUM_SYNC(_MP_NUM_SYNC_1985189988)
             ) btn_cond (
                 .clk(clk),
-                .in(M_btn_cond_in[idx_0_1249631209]),
-                .out(M_btn_cond_out[idx_0_1249631209])
+                .in(M_btn_cond_in[idx_0_1985189988]),
+                .out(M_btn_cond_out[idx_0_1985189988])
             );
         end
     endgenerate
     
     
-    localparam logic [17:0][0:0] _MP_RISE_1098051536 = {{1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1}};
-    localparam logic [17:0][0:0] _MP_FALL_1098051536 = {{1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0}};
+    localparam logic [17:0][0:0] _MP_RISE_455605981 = {{1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1, 1'h1}};
+    localparam logic [17:0][0:0] _MP_FALL_455605981 = {{1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0, 1'h0}};
     logic [17:0] M_btn_edge_in;
     logic [17:0] M_btn_edge_out;
     
-    genvar idx_0_1098051536;
+    genvar idx_0_455605981;
     
     generate
-        for (idx_0_1098051536 = 0; idx_0_1098051536 < 18; idx_0_1098051536 = idx_0_1098051536 + 1) begin: forLoop_idx_0_1098051536
+        for (idx_0_455605981 = 0; idx_0_455605981 < 18; idx_0_455605981 = idx_0_455605981 + 1) begin: forLoop_idx_0_455605981
             edge_detector #(
-                .RISE(_MP_RISE_1098051536[idx_0_1098051536]),
-                .FALL(_MP_FALL_1098051536[idx_0_1098051536])
+                .RISE(_MP_RISE_455605981[idx_0_455605981]),
+                .FALL(_MP_FALL_455605981[idx_0_455605981])
             ) btn_edge (
                 .clk(clk),
-                .in(M_btn_edge_in[idx_0_1098051536]),
-                .out(M_btn_edge_out[idx_0_1098051536])
+                .in(M_btn_edge_in[idx_0_455605981]),
+                .out(M_btn_edge_out[idx_0_455605981])
             );
         end
     endgenerate
@@ -75,20 +75,20 @@ module button_input_handler (
         edges = M_btn_edge_out;
         validity = 1'h1;
         active = 9'h0;
-        for (RR_55fd2045_i = 0; RR_55fd2045_i < 4'h9; RR_55fd2045_i = RR_55fd2045_i + 1) begin
-      R_55fd2045_i = (1'h0) + RR_55fd2045_i * (1);
+        for (RR_5e41735f_i = 0; RR_5e41735f_i < 4'h9; RR_5e41735f_i = RR_5e41735f_i + 1) begin
+      R_5e41735f_i = (1'h0) + RR_5e41735f_i * (1);
             if (player == 1'h0) begin
-                active[R_55fd2045_i] = edges[R_55fd2045_i];
+                active[R_5e41735f_i] = edges[R_5e41735f_i];
             end else begin
-                active[R_55fd2045_i] = edges[R_55fd2045_i + 4'h9];
+                active[R_5e41735f_i] = edges[R_5e41735f_i + 4'h9];
             end
         end
         D_pos_d = 1'h0;
         valid = 1'h0;
-        for (RR_461a62b2_i = 0; RR_461a62b2_i < 4'h9; RR_461a62b2_i = RR_461a62b2_i + 1) begin
-      R_461a62b2_i = (1'h0) + RR_461a62b2_i * (1);
-            if (active[R_461a62b2_i] & validity) begin
-                D_pos_d = R_461a62b2_i + 1'h1;
+        for (RR_195370c3_i = 0; RR_195370c3_i < 4'h9; RR_195370c3_i = RR_195370c3_i + 1) begin
+      R_195370c3_i = (1'h0) + RR_195370c3_i * (1);
+            if (active[R_195370c3_i] & validity) begin
+                D_pos_d = R_195370c3_i + 1'h1;
                 valid = 1'h1;
                 validity = 1'h0;
             end

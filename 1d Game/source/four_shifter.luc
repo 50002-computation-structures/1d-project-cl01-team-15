@@ -1,0 +1,11 @@
+module four_shifter (
+    input a[32], // dividend
+    input b[32], // divisor
+    output out[32] // a/b
+  ) {
+    sig shr4[32]
+  always {
+        shr4 = b*4
+        out = a >> shr4[4:0]
+  }
+}

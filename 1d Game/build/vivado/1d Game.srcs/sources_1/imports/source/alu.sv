@@ -13,69 +13,200 @@ module alu (
         output reg v,
         output reg n
     );
-    logic [31:0] out_sig;
-    logic [4:0] shr4;
+    localparam _MP_SIZE_1124036280 = 6'h20;
+    logic [31:0] M_add_a;
+    logic [31:0] M_add_b;
+    logic [5:0] M_add_alufn_signal;
+    logic [31:0] M_add_out;
+    logic M_add_z;
+    logic M_add_v;
+    logic M_add_n;
+    
+    adder #(
+        .SIZE(_MP_SIZE_1124036280)
+    ) add (
+        .a(M_add_a),
+        .b(M_add_b),
+        .alufn_signal(M_add_alufn_signal),
+        .out(M_add_out),
+        .z(M_add_z),
+        .v(M_add_v),
+        .n(M_add_n)
+    );
+    
+    
+    logic [31:0] M_mul_a;
+    logic [31:0] M_mul_b;
+    logic [31:0] M_mul_mul;
+    
+    multiplier mul (
+        .a(M_mul_a),
+        .b(M_mul_b),
+        .mul(M_mul_mul)
+    );
+    
+    
+    localparam _MP_SIZE_1232510755 = 6'h20;
+    logic [31:0] M_bool_a;
+    logic [31:0] M_bool_b;
+    logic [5:0] M_bool_alufn;
+    logic [31:0] M_bool_bool;
+    
+    boolean #(
+        .SIZE(_MP_SIZE_1232510755)
+    ) bool (
+        .a(M_bool_a),
+        .b(M_bool_b),
+        .alufn(M_bool_alufn),
+        .bool(M_bool_bool)
+    );
+    
+    
+    logic [31:0] M_shft_a;
+    logic [4:0] M_shft_b;
+    logic [5:0] M_shft_alufn;
+    logic [31:0] M_shft_shift;
+    logic [4:0][31:0] M_shft_left;
+    logic [4:0][31:0] M_shft_right;
+    
+    shifter shft (
+        .a(M_shft_a),
+        .b(M_shft_b),
+        .alufn(M_shft_alufn),
+        .shift(M_shft_shift),
+        .left(M_shft_left),
+        .right(M_shft_right)
+    );
+    
+    
+    logic M_cmp_z;
+    logic M_cmp_v;
+    logic M_cmp_n;
+    logic [5:0] M_cmp_alufn;
+    logic M_cmp_cmp;
+    
+    compare cmp (
+        .z(M_cmp_z),
+        .v(M_cmp_v),
+        .n(M_cmp_n),
+        .alufn(M_cmp_alufn),
+        .cmp(M_cmp_cmp)
+    );
+    
+    
+    logic [31:0] M_div_a;
+    logic [31:0] M_div_b;
+    logic [31:0] M_div_d;
+    
+    divider div (
+        .a(M_div_a),
+        .b(M_div_b),
+        .d(M_div_d)
+    );
+    
+    
+    logic [31:0] M_fshr_a;
+    logic [31:0] M_fshr_b;
+    logic [31:0] M_fshr_out;
+    
+    four_shifter fshr (
+        .a(M_fshr_a),
+        .b(M_fshr_b),
+        .out(M_fshr_out)
+    );
+    
+    
     always @* begin
-        z = 1'h0;
-        v = 1'h0;
-        n = 1'h0;
-        shr4 = 1'h0;
+        M_add_a = a;
+        M_add_b = b;
+        M_add_alufn_signal = alufn;
+        M_mul_a = a;
+        M_mul_b = b;
+        M_bool_a = a;
+        M_bool_b = b;
+        M_bool_alufn = alufn;
+        M_shft_a = a;
+        M_shft_b = b[3'h4:1'h0];
+        M_shft_alufn = alufn;
+        M_div_a = a;
+        M_div_b = b;
+        M_cmp_z = M_add_z;
+        M_cmp_v = M_add_v;
+        M_cmp_n = M_add_n;
+        M_cmp_alufn = alufn;
+        M_fshr_a = a;
+        M_fshr_b = b;
         
         case (alufn)
             6'h0: begin
-                out_sig = a + b;
-                z = ~(|out_sig);
-                v = (a[5'h1f] & (b[5'h1f] ^ alufn[1'h0]) & !out_sig[5'h1f]) | (!a[5'h1f] & !(b[5'h1f] ^ alufn[1'h0]) & out_sig[5'h1f]);
-                n = out_sig[5'h1f];
+                out = M_add_out;
             end
             6'h1: begin
-                out_sig = a - b;
-                z = ~(|out_sig);
-                v = (a[5'h1f] & (b[5'h1f] ^ alufn[1'h0]) & !out_sig[5'h1f]) | (!a[5'h1f] & !(b[5'h1f] ^ alufn[1'h0]) & out_sig[5'h1f]);
-                n = out_sig[5'h1f];
+                out = M_add_out;
             end
             6'h2: begin
-                out_sig = a * b;
+                out = M_mul_mul;
+            end
+            6'h3: begin
+                out = M_div_d;
+            end
+            6'h8: begin
+                M_add_b = 32'h1;
+                out = M_add_out;
+            end
+            6'h9: begin
+                M_add_b = 32'h1;
+                out = M_add_out;
             end
             6'h18: begin
-                out_sig = a & b;
+                out = M_bool_bool;
             end
             6'h1e: begin
-                out_sig = a | b;
+                out = M_bool_bool;
             end
             6'h16: begin
-                out_sig = a ^ b;
+                out = M_bool_bool;
             end
             6'h1a: begin
-                out_sig = a;
+                out = M_bool_bool;
+            end
+            6'h15: begin
+                out = M_bool_bool;
+            end
+            6'h17: begin
+                out = M_bool_bool;
+            end
+            6'h11: begin
+                out = M_bool_bool;
             end
             6'h20: begin
-                out_sig = a << b[3'h4:1'h0];
+                out = M_shft_shift;
             end
             6'h21: begin
-                out_sig = a >> b[3'h4:1'h0];
+                out = M_shft_shift;
             end
             6'h23: begin
-                out_sig = a >>> b[3'h4:1'h0];
+                out = M_shft_shift;
             end
             6'h33: begin
-                out_sig = a == b;
+                out = M_cmp_cmp;
             end
             6'h35: begin
-                out_sig = a < b;
+                out = M_cmp_cmp;
             end
             6'h37: begin
-                out_sig = a <= b;
+                out = M_cmp_cmp;
             end
             6'h3c: begin
-                shr4 = b * 3'h4;
-                out_sig = a >> shr4[3'h4:1'h0];
+                out = M_fshr_out;
             end
             default: begin
-                out_sig = 1'h0;
+                out = 1'h0;
             end
         endcase
-        out = out_sig;
+        z = M_add_z;
+        v = M_add_v;
+        n = M_add_n;
     end
     
     
