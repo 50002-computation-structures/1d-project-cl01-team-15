@@ -76,6 +76,7 @@ read_verilog -library xil_defaultlib -sv {
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/button_input_handler.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/counter.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/decoder.sv}
+  {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/duck_led_handler.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/edge_detector.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/game_cu.sv}
   {C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.srcs/sources_1/imports/source/game_datapath.sv}

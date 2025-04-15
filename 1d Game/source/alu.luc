@@ -9,6 +9,7 @@ module alu (
 ) {
     
     sig out_sig[32]
+    sig shr4[5]
     
     
     always {
@@ -16,7 +17,7 @@ module alu (
         z = 0
         v = 0
         n = 0
-        
+        shr4 = 0
         case(alufn){
             6h00: // ADD
                 out_sig = a + b
@@ -50,6 +51,9 @@ module alu (
                 out_sig = a < b 
             6h37: // CMPLE
                 out_sig = a <= b
+            6h3C: // SHR4: shift a right by 4 * b
+                shr4 = b*4
+                out_sig = a >> shr4[4:0]
             
             
             default:

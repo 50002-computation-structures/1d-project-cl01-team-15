@@ -225,6 +225,10 @@ set_property PACKAGE_PIN P11 [get_ports {io_button[4]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {io_button[4]}]
 set_property PULLDOWN true [get_ports {io_button[4]}]
 
+set_property PACKAGE_PIN R13 [get_ports {ex_reset_button}]
+set_property IOSTANDARD LVCMOS33 [get_ports {ex_reset_button}]
+set_property PULLDOWN true [get_ports {ex_reset_button}]
+
 set_property PACKAGE_PIN P8 [get_ports {io_select[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {io_select[0]}]
 

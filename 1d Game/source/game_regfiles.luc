@@ -112,6 +112,6 @@ module game_regfiles (
          
         //debug
         user_input_out = user_input.q
-        debug = attempts.q
+        debug = current_button_light.q
     }
 }

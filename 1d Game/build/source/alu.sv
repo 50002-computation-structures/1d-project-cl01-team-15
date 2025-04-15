@@ -14,10 +14,12 @@ module alu (
         output reg n
     );
     logic [31:0] out_sig;
+    logic [4:0] shr4;
     always @* begin
         z = 1'h0;
         v = 1'h0;
         n = 1'h0;
+        shr4 = 1'h0;
         
         case (alufn)
             6'h0: begin
@@ -64,6 +66,10 @@ module alu (
             end
             6'h37: begin
                 out_sig = a <= b;
+            end
+            6'h3c: begin
+                shr4 = b * 3'h4;
+                out_sig = a >> shr4[3'h4:1'h0];
             end
             default: begin
                 out_sig = 1'h0;

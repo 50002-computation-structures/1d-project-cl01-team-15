@@ -26,14 +26,14 @@ module game_cu (
         SET,//0
         REDUCE_SETTER_TIMER,
         CHECK_SETTER_TIMER_END,
-    SETTER_TIMER_END_BOOL,
+        SETTER_TIMER_END_BOOL,
         STORE_SETTER_INPUT,
         SHIFT_PASSWORD,
         ADD_TO_PASSWORD,
         INCREMENT_SETTER_POINTER,
         DECREMENT_SETTER_ATTEMPTS,
         CHECK_SETTER_INPUT_END,
-    SETTER_INPUT_END_BOOL,
+        SETTER_INPUT_END_BOOL,
         RESET_SETTER_POINTER,
         RESET_SETTER_TIMER,  //10  
         
@@ -49,7 +49,7 @@ module game_cu (
         INCREMENT_DISPLAY_POINTER,
         DECREMENT_DISPLAY_ATTEMPTS,
         CHECK_DISPLAY_END,//20
-    DISPLAY_END_BOOL,
+        DISPLAY_END_BOOL,
         RESET_DISPLAY_POINTER,
         
         CHANGE_TO_PLAY_GAME_STATE,  
@@ -59,23 +59,23 @@ module game_cu (
         PLAY,
         REDUCE_PLAYER_TIMER,
         CHECK_PLAYER_TIMER_END,
-    PLAYER_TIMER_END_BOOL,
+        PLAYER_TIMER_END_BOOL,
         STORE_PLAYER_INPUT,
         SHIFT_PASSWORD_PLAY,
         FILTER_PASSWORD_PLAY,
         COMPARE_INPUT_WITH_PASSWORD,//30
-    INPUT_PASSWORD_BOOL,
+        INPUT_PASSWORD_BOOL,
         INCREMENT_PLAYER_POINTER,
         DECREMENT_PLAYER_ATTEMPTS,
         CHECK_PLAYER_INPUT_END,
-    PLAYER_INPUT_END_BOOL,
+        PLAYER_INPUT_END_BOOL,
         
         RESET_PLAYER_TIMER,  
         RESET_PLAYER_POINTER,
         
         //Progress Round
         CHECK_ROUND_NUMBER,
-    ROUND_NUMBER_BOOL,
+        ROUND_NUMBER_BOOL,
         INCREMENT_ROUND,
         INCREASE_DIFFICULTY,
         CHANGE_TO_SETTER_GAME_STATE,
@@ -84,6 +84,8 @@ module game_cu (
         
         //GAME OVER
         DISPLAY_ONE_PLAYER_WINS,
+    DISPLAY_PLAYER_ONE_WINS,
+    DISPLAY_PLAYER_TWO_WINS,
         DISPLAY_BOTH_WIN,
         SHOW_CHICKEN_DEATH,
         
@@ -100,6 +102,8 @@ module game_cu (
     }
     
     dff game_fsm[$width(GameStates)](#INIT(GameStates.RESET_POINTER), .clk(clk), .rst(rst))
+    dff delay_fsm[2](.clk(clk), #INIT(0))
+    sig advance 
     
     always {
         
@@ -113,6 +117,8 @@ module game_cu (
         regfile_ra2 = d0
         alu_out_sel = 0
         
+        delay_fsm.d = delay_fsm.q + 1
+        advance = &delay_fsm.q
         
         debug = game_fsm.q
         
@@ -145,13 +151,14 @@ GameStates.REDUCE_SETTER_TIMER:
                     alu_out_sel = d0
                   
                     game_fsm.d = GameStates.CHECK_SETTER_TIMER_END
+                    
 
 GameStates.CHECK_SETTER_TIMER_END:
                     alufn = b110101 
                     asel = b00 
                     bsel = b10   
                     
-                    regfile_we = d1                 
+                    //regfile_we = d1                 
                     regfile_ra1 = d0         
                     regfile_ra2 = d0
                     regfile_wa = d10                           
@@ -163,12 +170,20 @@ GameStates.CHECK_SETTER_TIMER_END:
                         game_fsm.d = GameStates.SET
                     }*/
             //}
+                    //if (advance){
+                        regfile_we = d1  
                 game_fsm.d = GameStates.SETTER_TIMER_END_BOOL
+                    //}
 GameStates.SETTER_TIMER_END_BOOL:
 
                   //if (bool_timer){
                     if (bool){
-                        game_fsm.d = GameStates.DISPLAY_ONE_PLAYER_WINS
+                        if (current_player){
+                            game_fsm.d = GameStates.DISPLAY_PLAYER_ONE_WINS
+                        } else {
+                            game_fsm.d = GameStates.DISPLAY_PLAYER_TWO_WINS
+                        }
+                        
                     } else {
                         game_fsm.d = GameStates.SET
                     }
@@ -178,26 +193,31 @@ GameStates.STORE_SETTER_INPUT:
                     asel = 0
                     bsel = 0  
                     
-                    regfile_we = 1                 
+                   // regfile_we = 1                 
                     regfile_ra1 = 0         
                     regfile_ra2 = 0
                     regfile_wa = d8                           
                     alu_out_sel = d3
-                  
+                   //if (advance){
+                        regfile_we = d1  
                     game_fsm.d = GameStates.SHIFT_PASSWORD
+                    //}
 
 GameStates.SHIFT_PASSWORD:
                     alufn = b100000  
                     asel = b00 
                     bsel = b100   
                     
-                    regfile_we = d1                 
+                    //regfile_we = d1                 
                     regfile_ra1 = d4         
                     regfile_ra2 = d0
                     regfile_wa = d4                           
                     alu_out_sel = d0
                   
+                     //if (advance){
+                        regfile_we = d1  
                     game_fsm.d = GameStates.ADD_TO_PASSWORD
+                    //}
 
 GameStates.ADD_TO_PASSWORD:
                     alufn = b011110 
@@ -211,6 +231,7 @@ GameStates.ADD_TO_PASSWORD:
                     alu_out_sel = d0
                   
                     game_fsm.d = GameStates.INCREMENT_SETTER_POINTER
+                    
 
 GameStates.INCREMENT_SETTER_POINTER:
                     alufn = b000000  
@@ -224,6 +245,7 @@ GameStates.INCREMENT_SETTER_POINTER:
                     alu_out_sel = d0
                   
                     game_fsm.d = GameStates.DECREMENT_SETTER_ATTEMPTS
+                    
 GameStates.DECREMENT_SETTER_ATTEMPTS:
                     alufn = b000001  
                     asel = b00 
@@ -326,45 +348,50 @@ GameStates.RESET_SETTER_ATTEMPTS:
                     game_fsm.d = GameStates.SHIFT_PASSWORD_DISPLAY
 
 GameStates.SHIFT_PASSWORD_DISPLAY:
-                    alufn = b100001  
+                    alufn = b111100  
                     asel = b00 
                     bsel = b00   
                     
-                    regfile_we = d1                 
+                    //regfile_we = d1                 
                     regfile_ra1 = d4         
                     regfile_ra2 = d5
                     regfile_wa = d6                           
                     alu_out_sel = d0
-                  
+                   //if (advance){
+                        regfile_we = d1  
                     game_fsm.d = GameStates.FILTER_PASSWORD_DISPLAY
+                    //}
 
 GameStates.FILTER_PASSWORD_DISPLAY:
                     alufn = b011000  
-                    asel = b01 
-                    bsel = b00   
+                    asel = b00 
+                    bsel = b01   
                     
                     regfile_we = d1                 
-                    regfile_ra1 = d0         
-                    regfile_ra2 = d5
-                    regfile_wa = d5                           
+                    regfile_ra1 = d6         
+                    regfile_ra2 = d0
+                    regfile_wa = d6                           
                     alu_out_sel = d0
                   
                     game_fsm.d = GameStates.DISPLAY_DIGIT
+                    
 
 GameStates.DISPLAY_DIGIT:
                     alufn = b011010 
                     asel = b00 
                     bsel = b00   
                     
-                    regfile_we = d1                 
+                    //regfile_we = d1                 
                     regfile_ra1 = d6         
                     regfile_ra2 = d0
                     regfile_wa = d1                           
                     alu_out_sel = d0
                     
                     if(display_timer){
-                      game_fsm.d = GameStates.CLEAR_DISPLAY
-
+                         
+                        regfile_we = d1  
+                      game_fsm.d = GameStates.INCREMENT_DISPLAY_POINTER
+                        
                     }
 
 GameStates.CLEAR_DISPLAY:
@@ -378,7 +405,7 @@ GameStates.CLEAR_DISPLAY:
                     regfile_wa = d1                           
                     alu_out_sel = d1
                   
-                    game_fsm.d = GameStates.INCREMENT_DISPLAY_POINTER
+                    game_fsm.d = GameStates.CHECK_DISPLAY_END
                 
 GameStates.INCREMENT_DISPLAY_POINTER:
                     alufn = b000000  
@@ -392,6 +419,7 @@ GameStates.INCREMENT_DISPLAY_POINTER:
                     alu_out_sel = d0
                   
                     game_fsm.d = GameStates.DECREMENT_DISPLAY_ATTEMPTS
+                    
 GameStates.DECREMENT_DISPLAY_ATTEMPTS:
                     alufn = b000001  
                     asel = b00 
@@ -403,8 +431,8 @@ GameStates.DECREMENT_DISPLAY_ATTEMPTS:
                     regfile_wa = d11                           
                     alu_out_sel = d0
                   
-                    game_fsm.d = GameStates.CHECK_DISPLAY_END
-
+                    game_fsm.d = GameStates.CLEAR_DISPLAY
+                    
 GameStates.CHECK_DISPLAY_END:
                     alufn = b110111 
                     asel = b00 
@@ -496,11 +524,17 @@ GameStates.CHECK_PLAYER_TIMER_END:
                     regfile_ra2 = d0
                     regfile_wa = d10                           
                     alu_out_sel = d0
+                    
                     game_fsm.d = GameStates.PLAYER_TIMER_END_BOOL
+                    
                 GameStates.PLAYER_TIMER_END_BOOL:
                   //if (bool_timer){                    
                     if (bool){
-                        game_fsm.d = GameStates.DISPLAY_ONE_PLAYER_WINS
+                        if (current_player){
+                            game_fsm.d = GameStates.DISPLAY_PLAYER_ONE_WINS
+                        } else {
+                            game_fsm.d = GameStates.DISPLAY_PLAYER_TWO_WINS
+                        }
                     } else {
                         game_fsm.d = GameStates.PLAY
                     }//}
@@ -519,17 +553,20 @@ GameStates.STORE_PLAYER_INPUT:
                     game_fsm.d = GameStates.SHIFT_PASSWORD_PLAY
 
 GameStates.SHIFT_PASSWORD_PLAY:
-                    alufn = b100001  
+                    alufn = b111100  
                     asel = b00 
                     bsel = b00   
                     
-                    regfile_we = d1                 
+                    //regfile_we = d1                 
                     regfile_ra1 = d4         
                     regfile_ra2 = d5
                     regfile_wa = d6                           
                     alu_out_sel = d0
-                  
+                  //if (advance){
+                        regfile_we = d1  
+                        
                     game_fsm.d = GameStates.FILTER_PASSWORD_PLAY
+                    //}
 
 GameStates.FILTER_PASSWORD_PLAY:
                     alufn = b011000  
@@ -541,8 +578,9 @@ GameStates.FILTER_PASSWORD_PLAY:
                     regfile_ra2 = d0
                     regfile_wa = d6                           
                     alu_out_sel = d0
-                  
+                
                     game_fsm.d = GameStates.COMPARE_INPUT_WITH_PASSWORD
+                    
 
 GameStates.COMPARE_INPUT_WITH_PASSWORD:
                     alufn = b110011  
@@ -554,7 +592,9 @@ GameStates.COMPARE_INPUT_WITH_PASSWORD:
                     regfile_ra2 = d8
                     regfile_wa = d10                          
                     alu_out_sel = d0
+                    
                 game_fsm.d = GameStates.INPUT_PASSWORD_BOOL
+                    
                 GameStates.INPUT_PASSWORD_BOOL:
                   //if (bool_timer){
                     if (bool){
@@ -597,7 +637,9 @@ GameStates.CHECK_PLAYER_INPUT_END:
                     regfile_ra2 = d0
                     regfile_wa = d10                           
                     alu_out_sel = d0
+                    
                 game_fsm.d = GameStates.PLAYER_INPUT_END_BOOL
+                    
                 GameStates.PLAYER_INPUT_END_BOOL:
                   //if (bool_timer){
                     if (bool){
@@ -644,7 +686,9 @@ GameStates.CHECK_ROUND_NUMBER:
                     regfile_ra2 = d0
                     regfile_wa = d10                           
                     alu_out_sel = d0
+                    
                 game_fsm.d = GameStates.ROUND_NUMBER_BOOL
+                    
                 GameStates.ROUND_NUMBER_BOOL:
                   //if (bool_timer){
                     if (bool){
@@ -725,9 +769,50 @@ GameStates.DISPLAY_ONE_PLAYER_WINS:
                 if (button_press){
                     game_fsm.d = GameStates.RESET_POINTER
                }
+GameStates.DISPLAY_PLAYER_ONE_WINS:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    //regfile_we = d1                 
+                    regfile_ra1 = d0        
+                    regfile_ra2 = d0
+                    regfile_wa = d1                           
+                    alu_out_sel = d6
+                if (button_press){
+                         
+                        regfile_we = d1  
+                    game_fsm.d = GameStates.RESET_POINTER
+               }
+                GameStates.DISPLAY_PLAYER_TWO_WINS:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    //regfile_we = d1                 
+                    regfile_ra1 = d0        
+                    regfile_ra2 = d0
+                    regfile_wa = d1                           
+                    alu_out_sel = d5
+                if (button_press){
+                         
+                        regfile_we = d1  
+                    game_fsm.d = GameStates.RESET_POINTER
+               }
 
 GameStates.DISPLAY_BOTH_WIN:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    //regfile_we = d1                 
+                    regfile_ra1 = d0        
+                    regfile_ra2 = d0
+                    regfile_wa = d1                           
+                    alu_out_sel = d7
                 if (button_press){
+                        
+                        regfile_we = d1  
                     game_fsm.d = GameStates.RESET_POINTER
                }
 
@@ -736,14 +821,19 @@ GameStates.SHOW_CHICKEN_DEATH:
                     asel = b00 
                     bsel = b00   
                     
-                    regfile_we = d1                 
+                    //regfile_we = d1                 
                     regfile_ra1 = d6         
                     regfile_ra2 = d0
                     regfile_wa = d1                           
                     alu_out_sel = d0
                   
-                    if (button_press){
-                        game_fsm.d = GameStates.DISPLAY_ONE_PLAYER_WINS
+                    if (decrease_timer){
+                        regfile_we = d1
+                        if (current_player){
+                            game_fsm.d = GameStates.DISPLAY_PLAYER_ONE_WINS
+                        } else {
+                            game_fsm.d = GameStates.DISPLAY_PLAYER_TWO_WINS
+                        }
                     }
 GameStates.RESET_POINTER:
                     alufn = b000000 
@@ -800,7 +890,7 @@ GameStates.RESET_TIMER:
                   
                     game_fsm.d = GameStates.RESET_ROUND
 GameStates.RESET_ROUND:
-                    alufn = b000000 
+                    /*alufn = b000000 
                     asel = b00 
                     bsel = b00   
                     
@@ -808,9 +898,9 @@ GameStates.RESET_ROUND:
                     regfile_ra1 = d0         
                     regfile_ra2 = d0
                     regfile_wa = d2                           
-                    alu_out_sel = d4
+                    alu_out_sel = d4*/
                     
-                    /*alufn = b011010 
+                    alufn = b011010 
                     asel = b11 
                     bsel = b00   
                     
@@ -818,7 +908,7 @@ GameStates.RESET_ROUND:
                     regfile_ra1 = d0         
                     regfile_ra2 = d0
                     regfile_wa = d2                           
-                    alu_out_sel = d0*/
+                    alu_out_sel = d0
                   
                     game_fsm.d = GameStates.CLEAR_WINNERS
 

@@ -15,7 +15,8 @@ module alchitry_top (
         output reg [3:0] io_select,
         input wire [4:0] io_button,
         input wire [2:0][7:0] io_dip,
-        input wire data
+        input wire data,
+        input wire ex_reset_button
     );
     logic rst;
     localparam CLK_FREQ = 27'h5f5e100;
@@ -23,13 +24,22 @@ module alchitry_top (
     localparam SLOW_CLOCK_DIV = 5'h1a;
     localparam FAST_CLOCK_DIV = 5'h19;
     localparam BOOLEAN_CLOCK_DIV = 3'h5;
+    logic [3:0] M_duckler_duck_number;
+    logic [8:0] M_duckler_duck_leds_lit;
+    
+    duck_led_handler duckler (
+        .duck_number(M_duckler_duck_number),
+        .duck_leds_lit(M_duckler_duck_leds_lit)
+    );
+    
+    
     logic current_player_sig;
-    localparam _MP_STAGES_1726848062 = 3'h4;
+    localparam _MP_STAGES_1178477392 = 3'h4;
     logic M_reset_cond_in;
     logic M_reset_cond_out;
     
     reset_conditioner #(
-        .STAGES(_MP_STAGES_1726848062)
+        .STAGES(_MP_STAGES_1178477392)
     ) reset_cond (
         .clk(clk),
         .in(M_reset_cond_in),
@@ -37,15 +47,47 @@ module alchitry_top (
     );
     
     
-    localparam _MP_DIGITS_735047175 = 3'h4;
-    localparam _MP_DIV_735047175 = 5'h10;
+    localparam _MP_CLK_FREQ_1695767716 = 27'h5f5e100;
+    localparam _MP_MIN_DELAY_1695767716 = 5'h14;
+    localparam _MP_NUM_SYNC_1695767716 = 2'h2;
+    logic M_external_reset_button_conditioner_in;
+    logic M_external_reset_button_conditioner_out;
+    
+    button_conditioner #(
+        .CLK_FREQ(_MP_CLK_FREQ_1695767716),
+        .MIN_DELAY(_MP_MIN_DELAY_1695767716),
+        .NUM_SYNC(_MP_NUM_SYNC_1695767716)
+    ) external_reset_button_conditioner (
+        .clk(clk),
+        .in(M_external_reset_button_conditioner_in),
+        .out(M_external_reset_button_conditioner_out)
+    );
+    
+    
+    localparam _MP_RISE_570627250 = 1'h1;
+    localparam _MP_FALL_570627250 = 1'h0;
+    logic M_external_reset_edge_in;
+    logic M_external_reset_edge_out;
+    
+    edge_detector #(
+        .RISE(_MP_RISE_570627250),
+        .FALL(_MP_FALL_570627250)
+    ) external_reset_edge (
+        .clk(clk),
+        .in(M_external_reset_edge_in),
+        .out(M_external_reset_edge_out)
+    );
+    
+    
+    localparam _MP_DIGITS_2022860254 = 3'h4;
+    localparam _MP_DIV_2022860254 = 5'h10;
     logic [3:0][3:0] M_seg_values;
     logic [6:0] M_seg_seg;
     logic [3:0] M_seg_sel;
     
     multi_seven_seg #(
-        .DIGITS(_MP_DIGITS_735047175),
-        .DIV(_MP_DIV_735047175)
+        .DIGITS(_MP_DIGITS_2022860254),
+        .DIV(_MP_DIV_2022860254)
     ) seg (
         .clk(clk),
         .rst(rst),
@@ -55,9 +97,9 @@ module alchitry_top (
     );
     
     
-    localparam _MP_SLOW_CLOCK_DIV_1601267351 = 5'h1a;
-    localparam _MP_FAST_CLOCK_DIV_1601267351 = 5'h19;
-    localparam _MP_BOOLEAN_CLOCK_DIV_1601267351 = 3'h5;
+    localparam _MP_SLOW_CLOCK_DIV_848037615 = 5'h1a;
+    localparam _MP_FAST_CLOCK_DIV_848037615 = 5'h19;
+    localparam _MP_BOOLEAN_CLOCK_DIV_848037615 = 3'h5;
     logic M_game_datapath_button_isPressed;
     logic [3:0] M_game_datapath_button_number;
     logic [31:0] M_game_datapath_current_button_out;
@@ -72,9 +114,9 @@ module alchitry_top (
     logic [5:0] M_game_datapath_current_state;
     
     game_datapath #(
-        .SLOW_CLOCK_DIV(_MP_SLOW_CLOCK_DIV_1601267351),
-        .FAST_CLOCK_DIV(_MP_FAST_CLOCK_DIV_1601267351),
-        .BOOLEAN_CLOCK_DIV(_MP_BOOLEAN_CLOCK_DIV_1601267351)
+        .SLOW_CLOCK_DIV(_MP_SLOW_CLOCK_DIV_848037615),
+        .FAST_CLOCK_DIV(_MP_FAST_CLOCK_DIV_848037615),
+        .BOOLEAN_CLOCK_DIV(_MP_BOOLEAN_CLOCK_DIV_848037615)
     ) game_datapath (
         .clk(clk),
         .rst(rst),
@@ -107,13 +149,13 @@ module alchitry_top (
     
     
     logic [3:0] D_player_input_d, D_player_input_q = 0;
-    localparam _MP_PIXEL_COUNT_2117153561 = 4'ha;
+    localparam _MP_PIXEL_COUNT_1101358244 = 4'ha;
     logic [3:0] M_led_bar_level;
     logic M_led_bar_data;
     logic M_led_bar_done;
     
     led_bar_handler #(
-        .PIXEL_COUNT(_MP_PIXEL_COUNT_2117153561)
+        .PIXEL_COUNT(_MP_PIXEL_COUNT_1101358244)
     ) led_bar (
         .clk(clk),
         .rst(rst),
@@ -123,28 +165,28 @@ module alchitry_top (
     );
     
     
-    localparam _MP_DIGITS_588615133 = 3'h4;
-    localparam _MP_LEADING_ZEROS_588615133 = 1'h0;
+    localparam _MP_DIGITS_1096499652 = 3'h4;
+    localparam _MP_LEADING_ZEROS_1096499652 = 1'h0;
     logic [13:0] M_seven_converter_value;
     logic [3:0][3:0] M_seven_converter_digits;
     
     bin_to_dec #(
-        .DIGITS(_MP_DIGITS_588615133),
-        .LEADING_ZEROS(_MP_LEADING_ZEROS_588615133)
+        .DIGITS(_MP_DIGITS_1096499652),
+        .LEADING_ZEROS(_MP_LEADING_ZEROS_1096499652)
     ) seven_converter (
         .value(M_seven_converter_value),
         .digits(M_seven_converter_digits)
     );
     
     
-    localparam _MP_DIGITS_721264748 = 1'h1;
-    localparam _MP_LEADING_ZEROS_721264748 = 1'h0;
+    localparam _MP_DIGITS_525275805 = 1'h1;
+    localparam _MP_LEADING_ZEROS_525275805 = 1'h0;
     logic [3:0] M_duck_converter_value;
     logic [0:0][3:0] M_duck_converter_digits;
     
     bin_to_dec #(
-        .DIGITS(_MP_DIGITS_721264748),
-        .LEADING_ZEROS(_MP_LEADING_ZEROS_721264748)
+        .DIGITS(_MP_DIGITS_525275805),
+        .LEADING_ZEROS(_MP_LEADING_ZEROS_525275805)
     ) duck_converter (
         .value(M_duck_converter_value),
         .digits(M_duck_converter_digits)
@@ -156,6 +198,9 @@ module alchitry_top (
         
         M_reset_cond_in = ~rst_n;
         rst = M_reset_cond_out;
+        M_external_reset_button_conditioner_in = ex_reset_button;
+        M_external_reset_edge_in = M_external_reset_button_conditioner_out;
+        rst = M_external_reset_edge_out;
         led = 8'h0;
         usb_tx = usb_rx;
         io_led = {{8'h0, 8'h0, 8'h0}};
@@ -167,23 +212,14 @@ module alchitry_top (
         M_game_datapath_button_number = D_player_input_q;
         D_player_input_d = M_input_handler_position;
         M_seg_values = {{4'h0, 4'h0, 4'h0, 4'h0}};
-        M_seven_converter_value = M_game_datapath_current_state;
+        M_seven_converter_value = M_game_datapath_current_attempts_out;
         M_seg_values = M_seven_converter_digits;
         M_duck_converter_value = M_game_datapath_current_light_out;
-        if (M_duck_converter_digits[1'h0] == 4'h9) begin
-            io_led[2'h2] = 1'h0;
-            io_led[1'h1][3'h7] = 1'h1;
-        end else begin
-            if (M_duck_converter_digits[1'h0] != 1'h0) begin
-                io_led[2'h2] = 1'h0;
-                io_led[1'h1][3'h7] = 1'h0;
-                io_led[2'h2][M_duck_converter_digits[1'h0] - 1'h1] = 1'h1;
-            end else begin
-                io_led[2'h2] = 1'h0;
-                io_led[1'h1] = 1'h0;
-            end
-        end
-        io_led[1'h0] = M_game_datapath_current_timer_out;
+        M_duckler_duck_number = M_game_datapath_current_light_out;
+        io_led[1'h1] = 1'h0;
+        io_led[2'h2] = M_duckler_duck_leds_lit[3'h7:1'h0];
+        io_led[1'h1][3'h7] = M_duckler_duck_leds_lit[4'h8];
+        io_led[1'h0] = M_game_datapath_debug_general;
         led[1'h0] = M_game_datapath_slow_clock_out;
         led[1'h1] = M_game_datapath_display_clock_out;
         led[2'h2] = M_game_datapath_current_player_out[1'h0];

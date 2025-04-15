@@ -181,7 +181,7 @@ module game_regfiles (
         boolean_out = D_boolean_q;
         attempts_out = D_attempts_q;
         user_input_out = D_user_input_q;
-        debug = D_attempts_q;
+        debug = D_current_button_light_q;
     end
     
     

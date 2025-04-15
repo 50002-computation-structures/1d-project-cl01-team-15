@@ -112,19 +112,25 @@
                     "type": "DiskFile",
                     "path": "source/led_bar_handler.luc"
                 }
+            },
+            {
+                "file": {
+                    "type": "DiskFile",
+                    "path": "source/duck_led_handler.luc"
+                }
             }
         ],
         "constraintFiles": [
             {
                 "file": {
-                    "type": "Component",
-                    "path": "Constraints/alchitry.acf"
+                    "type": "DiskFile",
+                    "path": "constraint/io_v1_pulldown.acf"
                 }
             },
             {
                 "file": {
                     "type": "DiskFile",
-                    "path": "constraint/io_v1_pulldown.acf"
+                    "path": "constraint/alchitry.acf"
                 }
             }
         ],

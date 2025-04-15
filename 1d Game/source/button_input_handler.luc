@@ -6,7 +6,7 @@ module button_input_handler(
     output valid,         // Goes high when a legal press occurs
     output position[4]    // Position of button pressed (1–9)
 ) {
-    const CLK_FREQ = $is_sim() ? 1000 : 100000000
+    const CLK_FREQ = $is_sim() ? 1000 : 10000000
 
     sig conditioned[18];   // Output of conditioners
     sig edges[18];         // Rising edge detected

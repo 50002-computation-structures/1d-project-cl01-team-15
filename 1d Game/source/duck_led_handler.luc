@@ -1,0 +1,24 @@
+module duck_led_handler (
+    input duck_number[4],
+    output duck_leds_lit[9]
+) {
+    
+    always {
+        case (duck_number) {
+            d0: duck_leds_lit = 9b0
+            d1: duck_leds_lit = 9b000000001
+            d2: duck_leds_lit = 9b000000010
+            d3: duck_leds_lit = 9b000000100
+            d4: duck_leds_lit = 9b000001000
+            d5: duck_leds_lit = 9b000010000
+            d6: duck_leds_lit = 9b000100000
+            d7: duck_leds_lit = 9b001000000
+            d8: duck_leds_lit = 9b010000000
+            d9: duck_leds_lit = 9b100000000
+            d10:duck_leds_lit = 9b101010101
+            d11:duck_leds_lit = 9b010111010
+                
+            default: duck_leds_lit = 7b0000000
+        }
+    }
+}
