@@ -7,7 +7,7 @@
 <Project Product="Vivado" Version="7" Minor="68" Path="C:/Users/amith/OneDrive/Documents/VS Code Projects/1d-project-cl01-team-15/1d Game/build/vivado/1d Game.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="c7b9a4c1d20c4153b5ce228c8051ced0"/>
+    <Option Name="Id" Val="fdacdb92b50e452e82e8dcf96d9dc4d0"/>
     <Option Name="Part" Val="xc7a35tftg256-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -91,7 +91,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/alu.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/alu.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -100,7 +100,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/bin_to_dec.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/bin_to_dec.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -109,7 +109,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/button_conditioner.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/button_conditioner.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -118,7 +118,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/button_input_handler.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/button_input_handler.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -127,7 +127,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/counter.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/counter.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -136,7 +136,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/decoder.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/decoder.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -145,7 +145,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/duck_led_handler.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/duck_led_handler.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -154,7 +154,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/edge_detector.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/edge_detector.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -163,7 +163,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/game_cu.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/game_cu.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -172,7 +172,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/game_datapath.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/game_datapath.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -181,7 +181,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/game_regfiles.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/game_regfiles.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -190,7 +190,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/led_bar_handler.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/led_bar_handler.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -199,7 +199,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/multi_seven_seg.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/multi_seven_seg.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -208,7 +208,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/pipeline.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/pipeline.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -217,7 +217,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/reset_conditioner.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/reset_conditioner.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -226,7 +226,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/seven_seg.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/seven_seg.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -235,7 +235,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/ws2812b_driver.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/ws2812b_driver.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -244,7 +244,7 @@
       <File Path="$PSRCDIR/sources_1/imports/source/alchitry_top.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/alchitry_top.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -254,7 +254,7 @@
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/button_input_tester.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -264,7 +264,7 @@
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="ImportPath" Val="$PPRDIR/../source/lucid_globals.sv"/>
-          <Attr Name="ImportTime" Val="1744736822"/>
+          <Attr Name="ImportTime" Val="1744743650"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>

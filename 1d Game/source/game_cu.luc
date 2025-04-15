@@ -33,9 +33,9 @@ module game_cu (
         INCREMENT_SETTER_POINTER,
         DECREMENT_SETTER_ATTEMPTS,
         CHECK_SETTER_INPUT_END,
-        SETTER_INPUT_END_BOOL,
+        SETTER_INPUT_END_BOOL, //10
         RESET_SETTER_POINTER,
-        RESET_SETTER_TIMER,  //10  
+        RESET_SETTER_TIMER,  
         
         CHANGE_TO_DISPLAY_GAME_STATE,
         CHANGE_SETTER_TO_PLAYER,
@@ -44,11 +44,11 @@ module game_cu (
         //Display Loop
         SHIFT_PASSWORD_DISPLAY,
         FILTER_PASSWORD_DISPLAY,
-        DISPLAY_DIGIT,
+        DISPLAY_DIGIT,             //
         CLEAR_DISPLAY,
-        INCREMENT_DISPLAY_POINTER,
+        INCREMENT_DISPLAY_POINTER, //20
         DECREMENT_DISPLAY_ATTEMPTS,
-        CHECK_DISPLAY_END,//20
+        CHECK_DISPLAY_END,
         DISPLAY_END_BOOL,
         RESET_DISPLAY_POINTER,
         
@@ -102,7 +102,7 @@ module game_cu (
     }
     
     dff game_fsm[$width(GameStates)](#INIT(GameStates.RESET_POINTER), .clk(clk), .rst(rst))
-    dff delay_fsm[2](.clk(clk), #INIT(0))
+    dff delay_fsm[6](.clk(clk), #INIT(0))
     sig advance 
     
     always {
@@ -170,10 +170,10 @@ GameStates.CHECK_SETTER_TIMER_END:
                         game_fsm.d = GameStates.SET
                     }*/
             //}
-                    //if (advance){
+                    if (advance){
                         regfile_we = d1  
                 game_fsm.d = GameStates.SETTER_TIMER_END_BOOL
-                    //}
+                    }
 GameStates.SETTER_TIMER_END_BOOL:
 
                   //if (bool_timer){
@@ -214,10 +214,10 @@ GameStates.SHIFT_PASSWORD:
                     regfile_wa = d4                           
                     alu_out_sel = d0
                   
-                     //if (advance){
+                     if (advance){
                         regfile_we = d1  
                     game_fsm.d = GameStates.ADD_TO_PASSWORD
-                    //}
+                    }
 
 GameStates.ADD_TO_PASSWORD:
                     alufn = b011110 
@@ -381,7 +381,7 @@ GameStates.DISPLAY_DIGIT:
                     asel = b00 
                     bsel = b00   
                     
-                    //regfile_we = d1                 
+                    regfile_we = d1                 
                     regfile_ra1 = d6         
                     regfile_ra2 = d0
                     regfile_wa = d1                           
@@ -389,7 +389,7 @@ GameStates.DISPLAY_DIGIT:
                     
                     if(display_timer){
                          
-                        regfile_we = d1  
+                        //regfile_we = d1  
                       game_fsm.d = GameStates.INCREMENT_DISPLAY_POINTER
                         
                     }
@@ -562,11 +562,11 @@ GameStates.SHIFT_PASSWORD_PLAY:
                     regfile_ra2 = d5
                     regfile_wa = d6                           
                     alu_out_sel = d0
-                  //if (advance){
+                  if (advance){
                         regfile_we = d1  
                         
                     game_fsm.d = GameStates.FILTER_PASSWORD_PLAY
-                    //}
+                    }
 
 GameStates.FILTER_PASSWORD_PLAY:
                     alufn = b011000  

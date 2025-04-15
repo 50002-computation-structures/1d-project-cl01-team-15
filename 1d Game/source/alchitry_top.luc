@@ -10,7 +10,8 @@ module alchitry_top (
     input io_button[5],     // 5 buttons on IO Shield
     input io_dip[3][8],      // DIP switches on IO Shield
     input data,
-    input ex_reset_button
+    input ex_reset_button,
+    output timer_led
 ) {
     sig rst                 // reset signal
     const CLK_FREQ = $is_sim() ? 1000 : 10000000 // put 1000 for sim, 100M for hardware 
@@ -112,13 +113,14 @@ module alchitry_top (
         //io_led[2] = game_datapath.debug_general   
         io_led[0] = game_datapath.debug_general    
         led[0] = game_datapath.slow_clock_out
+        timer_led = game_datapath.slow_clock_out
         led[1] = game_datapath.display_clock_out
         led[2] = game_datapath.current_player_out[0]
         led[6:3] = game_datapath.current_button_out
         
         led_bar.level = game_datapath.current_timer_out
         
-        io_segment = ~seg.seg
-        io_select = ~seg.sel
+        io_segment = seg.seg
+        io_select = seg.sel
     }
 }
