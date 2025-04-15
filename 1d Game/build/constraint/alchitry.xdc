@@ -261,3 +261,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports {io_segment[6]}]
 set_property PACKAGE_PIN T10 [get_ports {io_segment[7]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {io_segment[7]}]
 
+set_property PACKAGE_PIN M1 [get_ports {data}]
+set_property IOSTANDARD LVCMOS33 [get_ports {data}]
+

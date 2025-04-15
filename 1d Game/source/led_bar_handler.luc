@@ -1,0 +1,68 @@
+module led_bar_handler #(
+    PIXEL_COUNT = 10
+)(
+    input clk,
+    input rst,
+    input level[4],               // Number from 0 to 10
+    output data,                  // WS2812B data line
+    output done                   // High when update is complete
+) {
+    // Internal signals
+    sig update;
+    sig clear;
+    sig color[24]; // BRG format: [23:16]=B, [15:8]=R, [7:0]=G
+    sig pixel_color[PIXEL_COUNT][24]; // Each pixel has a 24-bit color
+    sig pixel_index[$clog2(PIXEL_COUNT)];
+    sig pixel_set_done;
+
+    .clk(clk) {
+        .rst(rst) {
+            dff i[$clog2(PIXEL_COUNT)]
+            dff setting(#INIT(1)) // Whether we are setting pixel_color array
+            
+            // WS2812B Driver
+            ws2812b_driver  strip_driver (#PIXEL_COUNT(PIXEL_COUNT));
+        }
+    }
+
+    
+
+    always {
+        // Default behavior
+        
+        pixel_color = PIXEL_COUNTx{{24b0}}
+        update = 0;
+        clear = 0;
+        color = 0
+        setting.d = 1
+        i.d = 0
+        
+        strip_driver.update = update
+        strip_driver.color = color
+        strip_driver.clear = clear
+        // Loop index
+        i.d = i.q;
+        pixel_index = i.q;
+
+        // Logic to set pixel colors
+        // This block sets all pixel colors based on the 'level'
+repeat (PIXEL_COUNT) {
+    if (i.q < level) {
+        pixel_color[i.q] = h0000FF;  // Green
+    } else {
+        pixel_color[i.q] = h000000;  // Off
+    }
+    i.d = i.q + 1;
+}
+
+// After repeat, reset the state
+i.d = 0;
+setting.d = 0;
+update = 1;
+
+        // Feed the current pixel color to the driver
+        color = pixel_color[pixel_index];
+        data = strip_driver.data
+        done = strip_driver.done
+    }
+}

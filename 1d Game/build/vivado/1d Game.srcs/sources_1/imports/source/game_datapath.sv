@@ -6,25 +6,299 @@
 
 module game_datapath #(
         parameter SLOW_CLOCK_DIV = 5'h1a,
-        parameter FAST_CLOCK_DIV = 5'h15
+        parameter FAST_CLOCK_DIV = 5'h15,
+        parameter BOOLEAN_CLOCK_DIV = 4'he
     ) (
-        input wire button,
+        input wire button_isPressed,
+        input wire [3:0] button_number,
         input wire clk,
         input wire rst,
         output reg [31:0] current_button_out,
         output reg [31:0] current_round_out,
         output reg [31:0] current_player_out,
+        output reg [31:0] current_timer_out,
+        output reg [31:0] current_attempts_out,
+        output reg [31:0] current_light_out,
         output reg slow_clock_out,
-        output reg variable_clock_out,
-        output reg [3:0] debug_general
+        output reg display_clock_out,
+        output reg [31:0] debug_general,
+        output reg [5:0] current_state
     );
+    logic [31:0] input_alu_a;
+    logic [31:0] input_alu_b;
+    logic bool_sig;
+    logic [31:0] current_player_sig;
+    logic [31:0] M_game_alu_a;
+    logic [31:0] M_game_alu_b;
+    logic [5:0] M_game_alu_alufn;
+    logic [31:0] M_game_alu_out;
+    logic M_game_alu_z;
+    logic M_game_alu_v;
+    logic M_game_alu_n;
+    
+    alu game_alu (
+        .a(M_game_alu_a),
+        .b(M_game_alu_b),
+        .alufn(M_game_alu_alufn),
+        .out(M_game_alu_out),
+        .z(M_game_alu_z),
+        .v(M_game_alu_v),
+        .n(M_game_alu_n)
+    );
+    
+    
+    localparam _MP_SIZE_1087288116 = 1'h1;
+    localparam _MP_DIV_1087288116 = SLOW_CLOCK_DIV;
+    localparam _MP_TOP_1087288116 = 1'h0;
+    localparam _MP_UP_1087288116 = 1'h1;
+    logic [0:0] M_game_timer_clock_value;
+    
+    counter #(
+        .SIZE(_MP_SIZE_1087288116),
+        .DIV(_MP_DIV_1087288116),
+        .TOP(_MP_TOP_1087288116),
+        .UP(_MP_UP_1087288116)
+    ) game_timer_clock (
+        .rst(rst),
+        .clk(clk),
+        .value(M_game_timer_clock_value)
+    );
+    
+    
+    localparam _MP_SIZE_1442378048 = 1'h1;
+    localparam _MP_DIV_1442378048 = FAST_CLOCK_DIV;
+    localparam _MP_TOP_1442378048 = 1'h0;
+    localparam _MP_UP_1442378048 = 1'h1;
+    logic [0:0] M_game_display_timer_value;
+    
+    counter #(
+        .SIZE(_MP_SIZE_1442378048),
+        .DIV(_MP_DIV_1442378048),
+        .TOP(_MP_TOP_1442378048),
+        .UP(_MP_UP_1442378048)
+    ) game_display_timer (
+        .rst(rst),
+        .clk(clk),
+        .value(M_game_display_timer_value)
+    );
+    
+    
+    localparam _MP_SIZE_240086703 = 1'h1;
+    localparam _MP_DIV_240086703 = BOOLEAN_CLOCK_DIV;
+    localparam _MP_TOP_240086703 = 1'h0;
+    localparam _MP_UP_240086703 = 1'h1;
+    logic [0:0] M_boolean_timer_value;
+    
+    counter #(
+        .SIZE(_MP_SIZE_240086703),
+        .DIV(_MP_DIV_240086703),
+        .TOP(_MP_TOP_240086703),
+        .UP(_MP_UP_240086703)
+    ) boolean_timer (
+        .rst(rst),
+        .clk(clk),
+        .value(M_boolean_timer_value)
+    );
+    
+    
+    localparam _MP_RISE_2143670511 = 1'h1;
+    localparam _MP_FALL_2143670511 = 1'h0;
+    logic M_edge_detector_game_timer_out;
+    
+    edge_detector #(
+        .RISE(_MP_RISE_2143670511),
+        .FALL(_MP_FALL_2143670511)
+    ) edge_detector_game_timer (
+        .in(M_game_timer_clock_value),
+        .clk(clk),
+        .out(M_edge_detector_game_timer_out)
+    );
+    
+    
+    localparam _MP_RISE_484085136 = 1'h1;
+    localparam _MP_FALL_484085136 = 1'h0;
+    logic M_edge_detector_display_timer_out;
+    
+    edge_detector #(
+        .RISE(_MP_RISE_484085136),
+        .FALL(_MP_FALL_484085136)
+    ) edge_detector_display_timer (
+        .in(M_game_display_timer_value),
+        .clk(clk),
+        .out(M_edge_detector_display_timer_out)
+    );
+    
+    
+    localparam _MP_RISE_613975697 = 1'h1;
+    localparam _MP_FALL_613975697 = 1'h0;
+    logic M_edge_detector_boolean_timer_out;
+    
+    edge_detector #(
+        .RISE(_MP_RISE_613975697),
+        .FALL(_MP_FALL_613975697)
+    ) edge_detector_boolean_timer (
+        .in(M_boolean_timer_value),
+        .clk(clk),
+        .out(M_edge_detector_boolean_timer_out)
+    );
+    
+    
+    localparam _MP_RISE_1699295995 = 1'h1;
+    localparam _MP_FALL_1699295995 = 1'h0;
+    logic M_button_edge_out;
+    
+    edge_detector #(
+        .RISE(_MP_RISE_1699295995),
+        .FALL(_MP_FALL_1699295995)
+    ) button_edge (
+        .in(button_isPressed),
+        .clk(clk),
+        .out(M_button_edge_out)
+    );
+    
+    
+    logic M_game_cu_bool;
+    logic [5:0] M_game_cu_alufn;
+    logic [2:0] M_game_cu_asel;
+    logic [2:0] M_game_cu_bsel;
+    logic [2:0] M_game_cu_alu_out_sel;
+    logic [3:0] M_game_cu_regfile_wa;
+    logic [3:0] M_game_cu_regfile_ra1;
+    logic [3:0] M_game_cu_regfile_ra2;
+    logic M_game_cu_regfile_we;
+    logic [5:0] M_game_cu_debug;
+    
+    game_cu game_cu (
+        .rst(rst),
+        .button_press(M_button_edge_out),
+        .decrease_timer(M_edge_detector_game_timer_out),
+        .display_timer(M_edge_detector_display_timer_out),
+        .bool_timer(M_boolean_timer_value),
+        .current_player(current_player_sig),
+        .clk(clk),
+        .bool(M_game_cu_bool),
+        .alufn(M_game_cu_alufn),
+        .asel(M_game_cu_asel),
+        .bsel(M_game_cu_bsel),
+        .alu_out_sel(M_game_cu_alu_out_sel),
+        .regfile_wa(M_game_cu_regfile_wa),
+        .regfile_ra1(M_game_cu_regfile_ra1),
+        .regfile_ra2(M_game_cu_regfile_ra2),
+        .regfile_we(M_game_cu_regfile_we),
+        .debug(M_game_cu_debug)
+    );
+    
+    
+    logic [31:0] M_game_regfiles_data;
+    logic [31:0] M_game_regfiles_rd1;
+    logic [31:0] M_game_regfiles_rd2;
+    logic [31:0] M_game_regfiles_timer_out;
+    logic [31:0] M_game_regfiles_current_button_light_out;
+    logic [31:0] M_game_regfiles_current_round_out;
+    logic [31:0] M_game_regfiles_current_player_out;
+    logic [31:0] M_game_regfiles_boolean_out;
+    logic [31:0] M_game_regfiles_attempts_out;
+    logic [31:0] M_game_regfiles_user_input_out;
+    logic [31:0] M_game_regfiles_debug;
+    
+    game_regfiles game_regfiles (
+        .we(M_game_cu_regfile_we),
+        .wa(M_game_cu_regfile_wa),
+        .ra1(M_game_cu_regfile_ra1),
+        .ra2(M_game_cu_regfile_ra2),
+        .rst(rst),
+        .clk(clk),
+        .data(M_game_regfiles_data),
+        .rd1(M_game_regfiles_rd1),
+        .rd2(M_game_regfiles_rd2),
+        .timer_out(M_game_regfiles_timer_out),
+        .current_button_light_out(M_game_regfiles_current_button_light_out),
+        .current_round_out(M_game_regfiles_current_round_out),
+        .current_player_out(M_game_regfiles_current_player_out),
+        .boolean_out(M_game_regfiles_boolean_out),
+        .attempts_out(M_game_regfiles_attempts_out),
+        .user_input_out(M_game_regfiles_user_input_out),
+        .debug(M_game_regfiles_debug)
+    );
+    
+    
     always @* begin
-        current_round_out = 1'h0;
-        current_button_out = 1'h0;
-        current_player_out = 1'h0;
-        slow_clock_out = 1'h0;
-        variable_clock_out = 1'h0;
-        debug_general = 1'h0;
+        bool_sig = M_game_regfiles_boolean_out[1'h0];
+        current_player_sig = M_game_regfiles_current_player_out;
+        M_game_cu_bool = bool_sig;
+        
+        case (M_game_cu_asel)
+            2'h0: begin
+                input_alu_a = M_game_regfiles_rd1;
+            end
+            2'h1: begin
+                input_alu_a = 8'h0;
+            end
+            2'h2: begin
+                input_alu_a = 8'h8;
+            end
+            2'h3: begin
+                input_alu_a = 8'h4;
+            end
+            default: begin
+                input_alu_a = 1'h0;
+            end
+        endcase
+        
+        case (M_game_cu_bsel)
+            2'h0: begin
+                input_alu_b = M_game_regfiles_rd2;
+            end
+            2'h1: begin
+                input_alu_b = 8'hf;
+            end
+            2'h2: begin
+                input_alu_b = 8'h1;
+            end
+            2'h3: begin
+                input_alu_b = 8'ha;
+            end
+            3'h4: begin
+                input_alu_b = 8'h4;
+            end
+            3'h5: begin
+                input_alu_b = 8'h0;
+            end
+            default: begin
+                input_alu_b = 1'h0;
+            end
+        endcase
+        M_game_alu_a = input_alu_a;
+        M_game_alu_b = input_alu_b;
+        M_game_alu_alufn = M_game_cu_alufn;
+        
+        case (M_game_cu_alu_out_sel)
+            2'h1: begin
+                M_game_regfiles_data = 4'h0;
+            end
+            2'h2: begin
+                M_game_regfiles_data = 4'ha;
+            end
+            2'h3: begin
+                M_game_regfiles_data = button_number;
+            end
+            3'h4: begin
+                M_game_regfiles_data = 4'h1;
+            end
+            default: begin
+                M_game_regfiles_data = M_game_alu_out;
+            end
+        endcase
+        current_button_out = M_game_regfiles_user_input_out;
+        current_round_out = M_game_regfiles_current_round_out;
+        current_player_out = M_game_regfiles_current_player_out;
+        current_timer_out = M_game_regfiles_timer_out;
+        slow_clock_out = M_game_timer_clock_value;
+        display_clock_out = M_game_display_timer_value;
+        current_attempts_out = M_game_regfiles_attempts_out;
+        current_light_out = M_game_regfiles_current_button_light_out;
+        debug_general = M_game_regfiles_debug;
+        current_state = M_game_cu_debug;
     end
     
     

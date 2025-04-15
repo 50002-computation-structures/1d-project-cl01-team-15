@@ -17,6 +17,7 @@ module game_regfiles (
     output current_round_out[32],
     output current_player_out[32],
     output boolean_out[32],
+    output attempts_out[32],
     
     //debug
     output user_input_out[32],
@@ -41,6 +42,7 @@ module game_regfiles (
             dff user_input[32](#INIT(0))
             dff game_state[32](#INIT(0))
             dff boolean[32](#INIT(0))
+            dff attempts[32](#INIT(0))
 
         }
     }
@@ -61,6 +63,7 @@ module game_regfiles (
                 d8 : user_input.d = data
                 d9 : game_state.d = data
                 d10: boolean.d = data
+                d11: attempts.d = data
 
             }
         }
@@ -79,6 +82,7 @@ module game_regfiles (
             d8 : rd1 = user_input.q
             d9 : rd1 = game_state.q
             d10: rd1 = boolean.q
+            d11: rd1 = attempts.q
             default : rd1 = 0
         }
         
@@ -95,6 +99,7 @@ module game_regfiles (
             d8 : rd2 = user_input.q
             d9 : rd2 = game_state.q
             d10: rd2 = boolean.q
+            d11: rd2 = attempts.q
             default : rd2 = 0
         }
 
@@ -103,9 +108,10 @@ module game_regfiles (
         current_round_out = current_round.q
         current_player_out = current_player.q
         boolean_out = boolean.q
+        attempts_out = attempts.q
          
         //debug
         user_input_out = user_input.q
-        debug = password.q
+        debug = attempts.q
     }
 }

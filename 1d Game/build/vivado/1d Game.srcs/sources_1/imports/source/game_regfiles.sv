@@ -18,7 +18,10 @@ module game_regfiles (
         output reg [31:0] current_button_light_out,
         output reg [31:0] current_round_out,
         output reg [31:0] current_player_out,
-        output reg [31:0] boolean_out
+        output reg [31:0] boolean_out,
+        output reg [31:0] attempts_out,
+        output reg [31:0] user_input_out,
+        output reg [31:0] debug
     );
     logic [31:0] D_timer_d, D_timer_q = 1'h0;
     logic [31:0] D_current_button_light_d, D_current_button_light_q = 1'h0;
@@ -31,6 +34,7 @@ module game_regfiles (
     logic [31:0] D_user_input_d, D_user_input_q = 1'h0;
     logic [31:0] D_game_state_d, D_game_state_q = 1'h0;
     logic [31:0] D_boolean_d, D_boolean_q = 1'h0;
+    logic [31:0] D_attempts_d, D_attempts_q = 1'h0;
     always @* begin
         D_timer_d = D_timer_q;
         D_current_button_light_d = D_current_button_light_q;
@@ -43,6 +47,7 @@ module game_regfiles (
         D_user_input_d = D_user_input_q;
         D_game_state_d = D_game_state_q;
         D_boolean_d = D_boolean_q;
+        D_attempts_d = D_attempts_q;
         
         if (we) begin
             
@@ -80,6 +85,9 @@ module game_regfiles (
                 4'ha: begin
                     D_boolean_d = data;
                 end
+                4'hb: begin
+                    D_attempts_d = data;
+                end
             endcase
         end
         
@@ -116,6 +124,9 @@ module game_regfiles (
             end
             4'ha: begin
                 rd1 = D_boolean_q;
+            end
+            4'hb: begin
+                rd1 = D_attempts_q;
             end
             default: begin
                 rd1 = 1'h0;
@@ -156,6 +167,9 @@ module game_regfiles (
             4'ha: begin
                 rd2 = D_boolean_q;
             end
+            4'hb: begin
+                rd2 = D_attempts_q;
+            end
             default: begin
                 rd2 = 1'h0;
             end
@@ -165,6 +179,9 @@ module game_regfiles (
         current_round_out = D_current_round_q;
         current_player_out = D_current_player_q;
         boolean_out = D_boolean_q;
+        attempts_out = D_attempts_q;
+        user_input_out = D_user_input_q;
+        debug = D_attempts_q;
     end
     
     
@@ -181,6 +198,7 @@ module game_regfiles (
             D_user_input_q <= 1'h0;
             D_game_state_q <= 1'h0;
             D_boolean_q <= 1'h0;
+            D_attempts_q <= 1'h0;
         end else begin
             D_timer_q <= D_timer_d;
             D_current_button_light_q <= D_current_button_light_d;
@@ -193,6 +211,7 @@ module game_regfiles (
             D_user_input_q <= D_user_input_d;
             D_game_state_q <= D_game_state_d;
             D_boolean_q <= D_boolean_d;
+            D_attempts_q <= D_attempts_d;
         end
     end
 endmodule

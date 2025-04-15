@@ -8,31 +8,37 @@ module alchitry_top (
     output io_segment[8],   // 7-segment LEDs on IO Shield
     output io_select[4],    // Digit select on IO Shield
     input io_button[5],     // 5 buttons on IO Shield
-    input io_dip[3][8]      // DIP switches on IO Shield
+    input io_dip[3][8],      // DIP switches on IO Shield
+    input data
 ) {
     sig rst                 // reset signal
     const CLK_FREQ = $is_sim() ? 1000 : 100000000 // put 1000 for sim, 100M for hardware 
     const SEVEN_SEG_DIV = $is_sim() ? 3 : 16 // put 3 for sim, 16 for hardware
     const SLOW_CLOCK_DIV = $is_sim() ? 9 : 26 // put 9 for sim, 26 for hardware 
-    const FAST_CLOCK_DIV = $is_sim() ? 8 : 24 // put 7 for sim, 21 for hardware 
+    const FAST_CLOCK_DIV = $is_sim() ? 8 : 25 // put 7 for sim, 21 for hardware 
+    const BOOLEAN_CLOCK_DIV = $is_sim() ? 1 : 5 // put 7 for sim, 21 for hardware 
     
     sig current_player_sig
+    sig led_digit[9]
     .clk(clk) {
         reset_conditioner reset_cond
         
         .rst(rst){
             multi_seven_seg seg(#DIV(SEVEN_SEG_DIV))
-            game_datapath game_datapath(#SLOW_CLOCK_DIV(SLOW_CLOCK_DIV), #FAST_CLOCK_DIV(FAST_CLOCK_DIV))
+            game_datapath game_datapath(#SLOW_CLOCK_DIV(SLOW_CLOCK_DIV), #FAST_CLOCK_DIV(FAST_CLOCK_DIV),
+                 #BOOLEAN_CLOCK_DIV(BOOLEAN_CLOCK_DIV))
             //button_input_tester tester(.btn(io_button), .dips(io_dip))
             button_input_handler input_handler(.btns(c{io_dip[0], io_dip[2][0], io_dip[1], io_dip[2][1]}),
             .player(current_player_sig))
                                
             dff player_input[4]
+            led_bar_handler led_bar
         }
     }
 
    
-    bin_to_dec bin_to_dec_converter(#DIGITS(4))
+    bin_to_dec seven_converter(#DIGITS(4))
+    bin_to_dec duck_converter(#DIGITS(1))
 
 
     always {
@@ -47,25 +53,58 @@ module alchitry_top (
         io_segment = 8hff          // turn segments off
         io_select = 4hf           // select no digits
         
+        player_input.d = input_handler.position
         current_player_sig = game_datapath.current_player_out
         game_datapath.button_isPressed = input_handler.valid
-        game_datapath.button_number = input_handler.position
+        game_datapath.button_number = player_input.q
         player_input.d = input_handler.position
         // LED output from tester
         //io_led = tester.io_led
         
          //update 7segments
         seg.values = 4x{{4b0}} // default to all 0 first
-        bin_to_dec_converter.value = game_datapath.current_state
-        seg.values = bin_to_dec_converter.digits
+        seven_converter.value = game_datapath.current_state
+        seg.values = seven_converter.digits
         
-        io_led[2] = game_datapath.debug_general// timer
-        io_led[1] = game_datapath.current_round_out    // p1 score 
+        duck_converter.value = game_datapath.current_light_out
+        
+        //io_led[2] = game_datapath.debug_general// timer
+        case (duck_converter.digits[0]) {
+    0: led_digit = 9b000000000
+    1: led_digit = 9b000000001
+    2: led_digit = 9b000000010
+    3: led_digit = 9b000000100
+    4: led_digit = 9b000001000
+    5: led_digit = 9b000010000
+    6: led_digit = 9b000100000
+    7: led_digit = 9b001000000
+    8: led_digit = 9b010000000
+    9: led_digit = 9b100000000
+    default: led_digit = 9b000000000
+}
+        /*if (duck_converter.digits[0] == d9){
+            io_led[2] = b0
+            io_led[1][7] = 1
+        } else if (duck_converter.digits[0] != 0) {
+            io_led[2] = b0
+            io_led[1][7] = 0
+            io_led[2][duck_converter.digits[0] - 1] = 1
+        } else {
+            io_led[2] = b0
+            io_led[1] = 0
+        }*/
+        //io_led[1] = game_datapath.current_round_out    // p1 score 
+        io_led[1] = 0
+        io_led[2] = led_digit[7:0];      // Lower 8 bits
+        io_led[1][7] = led_digit[8];     // MSB goes to io_led[1][7]
+        io_led[2] = game_datapath.current_button_out
         io_led[0] = game_datapath.current_timer_out    // p2 score
         led[0] = game_datapath.slow_clock_out
         led[1] = game_datapath.display_clock_out
         led[2] = game_datapath.current_player_out[0]
         led[6:3] = game_datapath.current_button_out
+        
+        led_bar.level = game_datapath.current_timer_out
         
         io_segment = ~seg.seg
         io_select = ~seg.sel

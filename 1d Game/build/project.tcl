@@ -5,7 +5,7 @@ set device xc7a35tftg256-1
 if {[file exists "$projDir"]} { file delete -force "$projDir" }
 create_project $projName "$projDir" -part $device
 set_property design_mode RTL [get_filesets sources_1]
-set verilogSources [list "./source/alchitry_top.sv" "./source/reset_conditioner.sv" "./source/game_cu.sv" "./source/alu.sv" "./source/game_datapath.sv" "./source/game_regfiles.sv" "./source/seven_seg.sv" "./source/multi_seven_seg.sv" "./source/edge_detector.sv" "./source/counter.sv" "./source/decoder.sv" "./source/button_input_handler.sv" "./source/button_input_tester.sv" "./source/pipeline.sv" "./source/button_conditioner.sv" "./source/lucid_globals.sv" ]
+set verilogSources [list "./source/alchitry_top.sv" "./source/reset_conditioner.sv" "./source/game_cu.sv" "./source/alu.sv" "./source/game_datapath.sv" "./source/game_regfiles.sv" "./source/seven_seg.sv" "./source/multi_seven_seg.sv" "./source/edge_detector.sv" "./source/counter.sv" "./source/decoder.sv" "./source/button_input_handler.sv" "./source/button_input_tester.sv" "./source/pipeline.sv" "./source/button_conditioner.sv" "./source/bin_to_dec.sv" "./source/ws2812b_driver.sv" "./source/led_bar_handler.sv" "./source/lucid_globals.sv" ]
 import_files -fileset [get_filesets sources_1] -force -norecurse $verilogSources
 set xdcSources [list "./constraint/alchitry.xdc" "./constraint/au_props.xdc" ]
 read_xdc $xdcSources

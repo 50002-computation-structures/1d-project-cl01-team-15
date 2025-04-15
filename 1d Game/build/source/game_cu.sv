@@ -10,6 +10,7 @@ module game_cu (
         input wire button_press,
         input wire decrease_timer,
         input wire display_timer,
+        input wire bool_timer,
         input wire bool,
         input wire current_player,
         output reg [5:0] alufn,
@@ -20,54 +21,69 @@ module game_cu (
         output reg [3:0] regfile_ra1,
         output reg [3:0] regfile_ra2,
         output reg regfile_we,
-        output reg [3:0] debug
+        output reg [5:0] debug
     );
     localparam E_GameStates_SET = 6'h0;
     localparam E_GameStates_REDUCE_SETTER_TIMER = 6'h1;
     localparam E_GameStates_CHECK_SETTER_TIMER_END = 6'h2;
-    localparam E_GameStates_STORE_SETTER_INPUT = 6'h3;
-    localparam E_GameStates_SHIFT_PASSWORD = 6'h4;
-    localparam E_GameStates_ADD_TO_PASSWORD = 6'h5;
-    localparam E_GameStates_INCREMENT_SETTER_POINTER = 6'h6;
-    localparam E_GameStates_CHECK_SETTER_INPUT_END = 6'h7;
-    localparam E_GameStates_RESET_SETTER_POINTER = 6'h8;
-    localparam E_GameStates_RESET_SETTER_TIMER = 6'h9;
-    localparam E_GameStates_CHANGE_TO_DISPLAY_GAME_STATE = 6'ha;
-    localparam E_GameStates_CHANGE_SETTER_TO_PLAYER = 6'hb;
-    localparam E_GameStates_SHIFT_PASSWORD_DISPLAY = 6'hc;
-    localparam E_GameStates_FILTER_PASSWORD_DISPLAY = 6'hd;
-    localparam E_GameStates_DISPLAY_DIGIT = 6'he;
-    localparam E_GameStates_CLEAR_DISPLAY = 6'hf;
-    localparam E_GameStates_INCREMENT_DISPLAY_POINTER = 6'h10;
-    localparam E_GameStates_CHECK_DISPLAY_END = 6'h11;
-    localparam E_GameStates_RESET_DISPLAY_POINTER = 6'h12;
-    localparam E_GameStates_CHANGE_TO_PLAY_GAME_STATE = 6'h13;
-    localparam E_GameStates_PLAY = 6'h14;
-    localparam E_GameStates_REDUCE_PLAYER_TIMER = 6'h15;
-    localparam E_GameStates_CHECK_PLAYER_TIMER_END = 6'h16;
-    localparam E_GameStates_STORE_PLAYER_INPUT = 6'h17;
-    localparam E_GameStates_SHIFT_PASSWORD_PLAY = 6'h18;
-    localparam E_GameStates_FILTER_PASSWORD_PLAY = 6'h19;
-    localparam E_GameStates_COMPARE_INPUT_WITH_PASSWORD = 6'h1a;
-    localparam E_GameStates_INCREMENT_PLAYER_POINTER = 6'h1b;
-    localparam E_GameStates_CHECK_PLAYER_INPUT_END = 6'h1c;
-    localparam E_GameStates_RESET_PLAYER_TIMER = 6'h1d;
-    localparam E_GameStates_RESET_PLAYER_POINTER = 6'h1e;
-    localparam E_GameStates_CHECK_ROUND_NUMBER = 6'h1f;
-    localparam E_GameStates_INCREMENT_ROUND = 6'h20;
-    localparam E_GameStates_INCREASE_DIFFICULTY = 6'h21;
-    localparam E_GameStates_CHANGE_TO_SETTER_GAME_STATE = 6'h22;
-    localparam E_GameStates_CHANGE_PLAYER_TO_SETTER = 6'h23;
-    localparam E_GameStates_DISPLAY_ONE_PLAYER_WINS = 6'h24;
-    localparam E_GameStates_DISPLAY_BOTH_WIN = 6'h25;
-    localparam E_GameStates_SHOW_CHICKEN_DEATH = 6'h26;
-    localparam E_GameStates_RESET_POINTER = 6'h27;
-    localparam E_GameStates_RESET_GAME_STATE = 6'h28;
-    localparam E_GameStates_RESET_PLAYER = 6'h29;
-    localparam E_GameStates_RESET_TIMER = 6'h2a;
-    localparam E_GameStates_CLEAR_WINNERS = 6'h2b;
-    localparam E_GameStates_IDLE = 6'h2c;
-    logic [5:0] D_game_fsm_d, D_game_fsm_q = 6'h27;
+    localparam E_GameStates_SETTER_TIMER_END_BOOL = 6'h3;
+    localparam E_GameStates_STORE_SETTER_INPUT = 6'h4;
+    localparam E_GameStates_SHIFT_PASSWORD = 6'h5;
+    localparam E_GameStates_ADD_TO_PASSWORD = 6'h6;
+    localparam E_GameStates_INCREMENT_SETTER_POINTER = 6'h7;
+    localparam E_GameStates_DECREMENT_SETTER_ATTEMPTS = 6'h8;
+    localparam E_GameStates_CHECK_SETTER_INPUT_END = 6'h9;
+    localparam E_GameStates_SETTER_INPUT_END_BOOL = 6'ha;
+    localparam E_GameStates_RESET_SETTER_POINTER = 6'hb;
+    localparam E_GameStates_RESET_SETTER_TIMER = 6'hc;
+    localparam E_GameStates_CHANGE_TO_DISPLAY_GAME_STATE = 6'hd;
+    localparam E_GameStates_CHANGE_SETTER_TO_PLAYER = 6'he;
+    localparam E_GameStates_RESET_SETTER_ATTEMPTS = 6'hf;
+    localparam E_GameStates_SHIFT_PASSWORD_DISPLAY = 6'h10;
+    localparam E_GameStates_FILTER_PASSWORD_DISPLAY = 6'h11;
+    localparam E_GameStates_DISPLAY_DIGIT = 6'h12;
+    localparam E_GameStates_CLEAR_DISPLAY = 6'h13;
+    localparam E_GameStates_INCREMENT_DISPLAY_POINTER = 6'h14;
+    localparam E_GameStates_DECREMENT_DISPLAY_ATTEMPTS = 6'h15;
+    localparam E_GameStates_CHECK_DISPLAY_END = 6'h16;
+    localparam E_GameStates_DISPLAY_END_BOOL = 6'h17;
+    localparam E_GameStates_RESET_DISPLAY_POINTER = 6'h18;
+    localparam E_GameStates_CHANGE_TO_PLAY_GAME_STATE = 6'h19;
+    localparam E_GameStates_RESET_DISPLAY_ATTEMPTS = 6'h1a;
+    localparam E_GameStates_PLAY = 6'h1b;
+    localparam E_GameStates_REDUCE_PLAYER_TIMER = 6'h1c;
+    localparam E_GameStates_CHECK_PLAYER_TIMER_END = 6'h1d;
+    localparam E_GameStates_PLAYER_TIMER_END_BOOL = 6'h1e;
+    localparam E_GameStates_STORE_PLAYER_INPUT = 6'h1f;
+    localparam E_GameStates_SHIFT_PASSWORD_PLAY = 6'h20;
+    localparam E_GameStates_FILTER_PASSWORD_PLAY = 6'h21;
+    localparam E_GameStates_COMPARE_INPUT_WITH_PASSWORD = 6'h22;
+    localparam E_GameStates_INPUT_PASSWORD_BOOL = 6'h23;
+    localparam E_GameStates_INCREMENT_PLAYER_POINTER = 6'h24;
+    localparam E_GameStates_DECREMENT_PLAYER_ATTEMPTS = 6'h25;
+    localparam E_GameStates_CHECK_PLAYER_INPUT_END = 6'h26;
+    localparam E_GameStates_PLAYER_INPUT_END_BOOL = 6'h27;
+    localparam E_GameStates_RESET_PLAYER_TIMER = 6'h28;
+    localparam E_GameStates_RESET_PLAYER_POINTER = 6'h29;
+    localparam E_GameStates_CHECK_ROUND_NUMBER = 6'h2a;
+    localparam E_GameStates_ROUND_NUMBER_BOOL = 6'h2b;
+    localparam E_GameStates_INCREMENT_ROUND = 6'h2c;
+    localparam E_GameStates_INCREASE_DIFFICULTY = 6'h2d;
+    localparam E_GameStates_CHANGE_TO_SETTER_GAME_STATE = 6'h2e;
+    localparam E_GameStates_CHANGE_PLAYER_TO_SETTER = 6'h2f;
+    localparam E_GameStates_UPDATE_ATTEMPTS = 6'h30;
+    localparam E_GameStates_DISPLAY_ONE_PLAYER_WINS = 6'h31;
+    localparam E_GameStates_DISPLAY_BOTH_WIN = 6'h32;
+    localparam E_GameStates_SHOW_CHICKEN_DEATH = 6'h33;
+    localparam E_GameStates_RESET_POINTER = 6'h34;
+    localparam E_GameStates_RESET_GAME_STATE = 6'h35;
+    localparam E_GameStates_RESET_PLAYER = 6'h36;
+    localparam E_GameStates_RESET_TIMER = 6'h37;
+    localparam E_GameStates_CLEAR_WINNERS = 6'h38;
+    localparam E_GameStates_RESET_ROUND = 6'h39;
+    localparam E_GameStates_IDLE = 6'h3a;
+    localparam E_GameStates_SET_ATTEMPTS = 6'h3b;
+    logic [5:0] D_game_fsm_d, D_game_fsm_q = 6'h34;
     always @* begin
         D_game_fsm_d = D_game_fsm_q;
         
@@ -79,16 +95,16 @@ module game_cu (
         regfile_ra1 = 1'h0;
         regfile_ra2 = 1'h0;
         alu_out_sel = 1'h0;
-        debug = 4'h0;
+        debug = D_game_fsm_q;
         D_game_fsm_d = D_game_fsm_q;
         if (rst) begin
-            D_game_fsm_d = 6'h27;
+            D_game_fsm_d = 6'h34;
         end else begin
             
             case (D_game_fsm_q)
                 6'h0: begin
                     if (button_press) begin
-                        D_game_fsm_d = 6'h3;
+                        D_game_fsm_d = 6'h4;
                     end else begin
                         if (decrease_timer) begin
                             D_game_fsm_d = 6'h1;
@@ -98,18 +114,33 @@ module game_cu (
                 6'h1: begin
                     alufn = 6'h1;
                     asel = 2'h0;
-                    bsel = 2'h3;
+                    bsel = 2'h2;
                     regfile_we = 1'h1;
-                    regfile_ra1 = 2'h2;
+                    regfile_ra1 = 1'h0;
                     regfile_ra2 = 1'h0;
-                    regfile_wa = 3'h6;
+                    regfile_wa = 1'h0;
                     alu_out_sel = 1'h0;
                     D_game_fsm_d = 6'h2;
                 end
                 6'h2: begin
-                    alufn = 1'h0;
+                    alufn = 6'h35;
+                    asel = 2'h0;
+                    bsel = 2'h2;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'ha;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h3;
                 end
                 6'h3: begin
+                    if (bool) begin
+                        D_game_fsm_d = 6'h31;
+                    end else begin
+                        D_game_fsm_d = 6'h0;
+                    end
+                end
+                6'h4: begin
                     alufn = 1'h0;
                     asel = 1'h0;
                     bsel = 1'h0;
@@ -118,9 +149,9 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 4'h8;
                     alu_out_sel = 2'h3;
-                    D_game_fsm_d = 6'h4;
+                    D_game_fsm_d = 6'h5;
                 end
-                6'h4: begin
+                6'h5: begin
                     alufn = 6'h20;
                     asel = 2'h0;
                     bsel = 3'h4;
@@ -129,9 +160,9 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 3'h4;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h5;
+                    D_game_fsm_d = 6'h6;
                 end
-                6'h5: begin
+                6'h6: begin
                     alufn = 6'h1e;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -140,9 +171,9 @@ module game_cu (
                     regfile_ra2 = 4'h8;
                     regfile_wa = 3'h4;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h6;
+                    D_game_fsm_d = 6'h7;
                 end
-                6'h6: begin
+                6'h7: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h2;
@@ -151,35 +182,38 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 3'h5;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h7;
-                end
-                6'h7: begin
-                    alufn = 6'h37;
-                    asel = 2'h0;
-                    bsel = 2'h0;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 3'h5;
-                    regfile_ra2 = 2'h2;
-                    regfile_wa = 4'ha;
-                    alu_out_sel = 1'h0;
-                    if (bool) begin
-                        D_game_fsm_d = 6'h0;
-                    end else begin
-                        D_game_fsm_d = 6'h8;
-                    end
+                    D_game_fsm_d = 6'h8;
                 end
                 6'h8: begin
-                    alufn = 6'h0;
+                    alufn = 6'h1;
                     asel = 2'h0;
-                    bsel = 2'h0;
+                    bsel = 2'h2;
                     regfile_we = 1'h1;
-                    regfile_ra1 = 1'h0;
+                    regfile_ra1 = 4'hb;
                     regfile_ra2 = 1'h0;
-                    regfile_wa = 1'h0;
-                    alu_out_sel = 2'h2;
+                    regfile_wa = 4'hb;
+                    alu_out_sel = 1'h0;
                     D_game_fsm_d = 6'h9;
                 end
                 6'h9: begin
+                    alufn = 6'h37;
+                    asel = 2'h0;
+                    bsel = 3'h5;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 4'hb;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'ha;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'ha;
+                end
+                6'ha: begin
+                    if (bool) begin
+                        D_game_fsm_d = 6'hb;
+                    end else begin
+                        D_game_fsm_d = 6'h0;
+                    end
+                end
+                6'hb: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -188,9 +222,20 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 1'h0;
                     alu_out_sel = 2'h2;
-                    D_game_fsm_d = 6'ha;
+                    D_game_fsm_d = 6'hc;
                 end
-                6'ha: begin
+                6'hc: begin
+                    alufn = 6'h0;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 1'h0;
+                    alu_out_sel = 2'h2;
+                    D_game_fsm_d = 6'hd;
+                end
+                6'hd: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h2;
@@ -199,9 +244,9 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 4'h9;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'hb;
+                    D_game_fsm_d = 6'he;
                 end
-                6'hb: begin
+                6'he: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h2;
@@ -210,9 +255,20 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 2'h3;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'hc;
+                    D_game_fsm_d = 6'hf;
                 end
-                6'hc: begin
+                6'hf: begin
+                    alufn = 6'h1a;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 2'h2;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'hb;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h10;
+                end
+                6'h10: begin
                     alufn = 6'h21;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -221,9 +277,9 @@ module game_cu (
                     regfile_ra2 = 3'h5;
                     regfile_wa = 3'h6;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'hd;
+                    D_game_fsm_d = 6'h11;
                 end
-                6'hd: begin
+                6'h11: begin
                     alufn = 6'h18;
                     asel = 2'h1;
                     bsel = 2'h0;
@@ -232,9 +288,9 @@ module game_cu (
                     regfile_ra2 = 3'h5;
                     regfile_wa = 3'h5;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'he;
+                    D_game_fsm_d = 6'h12;
                 end
-                6'he: begin
+                6'h12: begin
                     alufn = 6'h1a;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -244,10 +300,10 @@ module game_cu (
                     regfile_wa = 1'h1;
                     alu_out_sel = 1'h0;
                     if (display_timer) begin
-                        D_game_fsm_d = 6'hf;
+                        D_game_fsm_d = 6'h13;
                     end
                 end
-                6'hf: begin
+                6'h13: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -256,9 +312,9 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 1'h1;
                     alu_out_sel = 1'h1;
-                    D_game_fsm_d = 6'h10;
+                    D_game_fsm_d = 6'h14;
                 end
-                6'h10: begin
+                6'h14: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h2;
@@ -267,24 +323,38 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 3'h5;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h11;
+                    D_game_fsm_d = 6'h15;
                 end
-                6'h11: begin
+                6'h15: begin
+                    alufn = 6'h1;
+                    asel = 2'h0;
+                    bsel = 2'h2;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 4'hb;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'hb;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h16;
+                end
+                6'h16: begin
                     alufn = 6'h37;
                     asel = 2'h0;
-                    bsel = 2'h0;
+                    bsel = 3'h5;
                     regfile_we = 1'h1;
-                    regfile_ra1 = 3'h5;
-                    regfile_ra2 = 2'h2;
+                    regfile_ra1 = 4'hb;
+                    regfile_ra2 = 1'h0;
                     regfile_wa = 4'ha;
                     alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h17;
+                end
+                6'h17: begin
                     if (bool) begin
-                        D_game_fsm_d = 6'hc;
+                        D_game_fsm_d = 6'h18;
                     end else begin
-                        D_game_fsm_d = 6'h12;
+                        D_game_fsm_d = 6'h10;
                     end
                 end
-                6'h12: begin
+                6'h18: begin
                     alufn = 6'h1a;
                     asel = 2'h1;
                     bsel = 2'h0;
@@ -293,9 +363,9 @@ module game_cu (
                     regfile_ra2 = 3'h5;
                     regfile_wa = 3'h5;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h13;
+                    D_game_fsm_d = 6'h19;
                 end
-                6'h13: begin
+                6'h19: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h2;
@@ -304,24 +374,58 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 4'h9;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h14;
+                    D_game_fsm_d = 6'h1a;
                 end
-                6'h14: begin
+                6'h1a: begin
+                    alufn = 6'h1a;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 2'h2;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'hb;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h1b;
+                end
+                6'h1b: begin
                     if (button_press) begin
-                        D_game_fsm_d = 6'h17;
+                        D_game_fsm_d = 6'h1f;
                     end else begin
                         if (decrease_timer) begin
-                            D_game_fsm_d = 6'h15;
+                            D_game_fsm_d = 6'h1c;
                         end
                     end
                 end
-                6'h15: begin
-                    alufn = 1'h0;
+                6'h1c: begin
+                    alufn = 6'h1;
+                    asel = 2'h0;
+                    bsel = 2'h2;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 1'h0;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h1d;
                 end
-                6'h16: begin
-                    alufn = 1'h0;
+                6'h1d: begin
+                    alufn = 6'h35;
+                    asel = 2'h0;
+                    bsel = 2'h2;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'ha;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h1e;
                 end
-                6'h17: begin
+                6'h1e: begin
+                    if (bool) begin
+                        D_game_fsm_d = 6'h31;
+                    end else begin
+                        D_game_fsm_d = 6'h1b;
+                    end
+                end
+                6'h1f: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -330,9 +434,9 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 4'h8;
                     alu_out_sel = 2'h3;
-                    D_game_fsm_d = 6'h18;
+                    D_game_fsm_d = 6'h20;
                 end
-                6'h18: begin
+                6'h20: begin
                     alufn = 6'h21;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -341,9 +445,9 @@ module game_cu (
                     regfile_ra2 = 3'h5;
                     regfile_wa = 3'h6;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h19;
+                    D_game_fsm_d = 6'h21;
                 end
-                6'h19: begin
+                6'h21: begin
                     alufn = 6'h18;
                     asel = 2'h0;
                     bsel = 2'h1;
@@ -352,9 +456,9 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 3'h6;
                     alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h1a;
+                    D_game_fsm_d = 6'h22;
                 end
-                6'h1a: begin
+                6'h22: begin
                     alufn = 6'h33;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -363,142 +467,54 @@ module game_cu (
                     regfile_ra2 = 4'h8;
                     regfile_wa = 4'ha;
                     alu_out_sel = 1'h0;
-                    if (bool) begin
-                        D_game_fsm_d = 6'h1b;
-                    end else begin
-                        D_game_fsm_d = 6'h26;
-                    end
-                end
-                6'h1b: begin
-                    alufn = 6'h0;
-                    asel = 2'h0;
-                    bsel = 2'h2;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 3'h5;
-                    regfile_ra2 = 1'h0;
-                    regfile_wa = 3'h5;
-                    alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h1c;
-                end
-                6'h1c: begin
-                    alufn = 6'h37;
-                    asel = 2'h0;
-                    bsel = 2'h0;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 3'h5;
-                    regfile_ra2 = 2'h2;
-                    regfile_wa = 4'ha;
-                    alu_out_sel = 1'h0;
-                    if (bool) begin
-                        D_game_fsm_d = 6'h14;
-                    end else begin
-                        D_game_fsm_d = 6'h1d;
-                    end
-                end
-                6'h1d: begin
-                    alufn = 6'h0;
-                    asel = 2'h0;
-                    bsel = 2'h0;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 1'h0;
-                    regfile_ra2 = 1'h0;
-                    regfile_wa = 1'h0;
-                    alu_out_sel = 2'h2;
-                    D_game_fsm_d = 6'h1e;
-                end
-                6'h1e: begin
-                    alufn = 6'h1a;
-                    asel = 2'h0;
-                    bsel = 2'h0;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 3'h5;
-                    regfile_ra2 = 1'h0;
-                    regfile_wa = 3'h5;
-                    alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h1f;
-                end
-                6'h1f: begin
-                    alufn = 6'h35;
-                    asel = 2'h0;
-                    bsel = 2'h1;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 2'h2;
-                    regfile_ra2 = 1'h0;
-                    regfile_wa = 4'ha;
-                    alu_out_sel = 1'h0;
-                    if (bool) begin
-                        D_game_fsm_d = 6'h20;
-                    end else begin
-                        D_game_fsm_d = 6'h25;
-                    end
-                end
-                6'h20: begin
-                    alufn = 6'h35;
-                    asel = 2'h0;
-                    bsel = 2'h0;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 3'h5;
-                    regfile_ra2 = 2'h2;
-                    regfile_wa = 4'ha;
-                    alu_out_sel = 1'h0;
-                    if (current_player) begin
-                        D_game_fsm_d = 6'h21;
-                    end else begin
-                        D_game_fsm_d = 6'h22;
-                    end
-                end
-                6'h21: begin
-                    alufn = 6'h0;
-                    asel = 2'h0;
-                    bsel = 2'h2;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 3'h7;
-                    regfile_ra2 = 1'h0;
-                    regfile_wa = 3'h7;
-                    alu_out_sel = 1'h0;
-                    D_game_fsm_d = 6'h22;
-                end
-                6'h22: begin
-                    alufn = 6'h0;
-                    asel = 2'h0;
-                    bsel = 2'h0;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 1'h0;
-                    regfile_ra2 = 1'h0;
-                    regfile_wa = 4'h9;
-                    alu_out_sel = 1'h1;
                     D_game_fsm_d = 6'h23;
                 end
                 6'h23: begin
-                    alufn = 6'h0;
-                    asel = 2'h0;
-                    bsel = 2'h0;
-                    regfile_we = 1'h1;
-                    regfile_ra1 = 1'h0;
-                    regfile_ra2 = 1'h0;
-                    regfile_wa = 2'h3;
-                    alu_out_sel = 1'h1;
-                    D_game_fsm_d = 6'h0;
+                    if (bool) begin
+                        D_game_fsm_d = 6'h24;
+                    end else begin
+                        D_game_fsm_d = 6'h33;
+                    end
                 end
                 6'h24: begin
-                    alufn = 1'h0;
-                end
-                6'h25: begin
-                    alufn = 1'h0;
-                end
-                6'h26: begin
-                    alufn = 1'h0;
-                end
-                6'h27: begin
                     alufn = 6'h0;
                     asel = 2'h0;
-                    bsel = 2'h0;
+                    bsel = 2'h2;
                     regfile_we = 1'h1;
-                    regfile_ra1 = 1'h0;
+                    regfile_ra1 = 3'h5;
                     regfile_ra2 = 1'h0;
                     regfile_wa = 3'h5;
-                    alu_out_sel = 1'h1;
-                    D_game_fsm_d = 6'h28;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h25;
+                end
+                6'h25: begin
+                    alufn = 6'h1;
+                    asel = 2'h0;
+                    bsel = 2'h2;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 4'hb;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'hb;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h26;
+                end
+                6'h26: begin
+                    alufn = 6'h37;
+                    asel = 2'h0;
+                    bsel = 3'h5;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 4'hb;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'ha;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h27;
+                end
+                6'h27: begin
+                    if (bool) begin
+                        D_game_fsm_d = 6'h28;
+                    end else begin
+                        D_game_fsm_d = 6'h1b;
+                    end
                 end
                 6'h28: begin
                     alufn = 6'h0;
@@ -507,11 +523,77 @@ module game_cu (
                     regfile_we = 1'h1;
                     regfile_ra1 = 1'h0;
                     regfile_ra2 = 1'h0;
-                    regfile_wa = 4'h9;
-                    alu_out_sel = 1'h1;
+                    regfile_wa = 1'h0;
+                    alu_out_sel = 2'h2;
                     D_game_fsm_d = 6'h29;
                 end
                 6'h29: begin
+                    alufn = 6'h1a;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 3'h5;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 3'h5;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h2a;
+                end
+                6'h2a: begin
+                    alufn = 6'h35;
+                    asel = 2'h0;
+                    bsel = 2'h1;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 2'h2;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'ha;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h2b;
+                end
+                6'h2b: begin
+                    if (bool) begin
+                        if (~current_player) begin
+                            D_game_fsm_d = 6'h2c;
+                        end else begin
+                            D_game_fsm_d = 6'h2e;
+                        end
+                    end else begin
+                        D_game_fsm_d = 6'h32;
+                    end
+                end
+                6'h2c: begin
+                    alufn = 6'h0;
+                    asel = 2'h0;
+                    bsel = 2'h2;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 2'h2;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 2'h2;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h2d;
+                end
+                6'h2d: begin
+                    alufn = 6'h0;
+                    asel = 2'h0;
+                    bsel = 2'h2;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 3'h7;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 3'h7;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h2e;
+                end
+                6'h2e: begin
+                    alufn = 6'h0;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'h9;
+                    alu_out_sel = 1'h1;
+                    D_game_fsm_d = 6'h30;
+                end
+                6'h2f: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -520,9 +602,76 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 2'h3;
                     alu_out_sel = 1'h1;
-                    D_game_fsm_d = 6'h2a;
+                    D_game_fsm_d = 6'h30;
                 end
-                6'h2a: begin
+                6'h30: begin
+                    alufn = 6'h1a;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 2'h2;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'hb;
+                    alu_out_sel = 1'h0;
+                    D_game_fsm_d = 6'h0;
+                end
+                6'h31: begin
+                    if (button_press) begin
+                        D_game_fsm_d = 6'h34;
+                    end
+                end
+                6'h32: begin
+                    if (button_press) begin
+                        D_game_fsm_d = 6'h34;
+                    end
+                end
+                6'h33: begin
+                    alufn = 6'h1a;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 3'h6;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 1'h1;
+                    alu_out_sel = 1'h0;
+                    if (button_press) begin
+                        D_game_fsm_d = 6'h31;
+                    end
+                end
+                6'h34: begin
+                    alufn = 6'h0;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 3'h5;
+                    alu_out_sel = 1'h1;
+                    D_game_fsm_d = 6'h35;
+                end
+                6'h35: begin
+                    alufn = 6'h0;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 4'h9;
+                    alu_out_sel = 1'h1;
+                    D_game_fsm_d = 6'h36;
+                end
+                6'h36: begin
+                    alufn = 6'h0;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 2'h3;
+                    alu_out_sel = 1'h1;
+                    D_game_fsm_d = 6'h37;
+                end
+                6'h37: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -531,9 +680,20 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 1'h0;
                     alu_out_sel = 2'h2;
-                    D_game_fsm_d = 6'h2b;
+                    D_game_fsm_d = 6'h39;
                 end
-                6'h2b: begin
+                6'h39: begin
+                    alufn = 6'h0;
+                    asel = 2'h0;
+                    bsel = 2'h0;
+                    regfile_we = 1'h1;
+                    regfile_ra1 = 1'h0;
+                    regfile_ra2 = 1'h0;
+                    regfile_wa = 2'h2;
+                    alu_out_sel = 3'h4;
+                    D_game_fsm_d = 6'h38;
+                end
+                6'h38: begin
                     alufn = 6'h0;
                     asel = 2'h0;
                     bsel = 2'h0;
@@ -542,11 +702,11 @@ module game_cu (
                     regfile_ra2 = 1'h0;
                     regfile_wa = 1'h1;
                     alu_out_sel = 1'h1;
-                    D_game_fsm_d = 6'h2c;
+                    D_game_fsm_d = 6'h3a;
                 end
-                6'h2c: begin
+                6'h3a: begin
                     if (button_press) begin
-                        D_game_fsm_d = 6'h0;
+                        D_game_fsm_d = 6'h30;
                     end
                 end
             endcase
@@ -556,7 +716,7 @@ module game_cu (
     
     always @(posedge (clk)) begin
         if ((rst) == 1'b1) begin
-            D_game_fsm_q <= 6'h27;
+            D_game_fsm_q <= 6'h34;
         end else begin
             D_game_fsm_q <= D_game_fsm_d;
         end

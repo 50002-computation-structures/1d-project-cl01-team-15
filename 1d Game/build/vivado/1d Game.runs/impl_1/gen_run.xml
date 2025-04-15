@@ -1,95 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tftg256-1" LaunchTime="1744657635">
-  <File Type="ROUTE-PWR" Name="multi_seven_seg_power_routed.rpt"/>
-  <File Type="PA-TCL" Name="multi_seven_seg.tcl"/>
-  <File Type="OPT-METHODOLOGY-DRC" Name="multi_seven_seg_methodology_drc_opted.rpt"/>
-  <File Type="INIT-TIMING" Name="multi_seven_seg_timing_summary_init.rpt"/>
-  <File Type="ROUTE-PWR-SUM" Name="multi_seven_seg_power_summary_routed.pb"/>
-  <File Type="OPT-RQA-PB" Name="multi_seven_seg_rqa_opted.pb"/>
-  <File Type="REPORTS-TCL" Name="multi_seven_seg_reports.tcl"/>
-  <File Type="OPT-TIMING" Name="multi_seven_seg_timing_summary_opted.rpt"/>
-  <File Type="OPT-DCP" Name="multi_seven_seg_opt.dcp"/>
-  <File Type="OPT-DRC" Name="multi_seven_seg_drc_opted.rpt"/>
-  <File Type="OPT-HWDEF" Name="multi_seven_seg.hwdef"/>
-  <File Type="PWROPT-DCP" Name="multi_seven_seg_pwropt.dcp"/>
-  <File Type="PWROPT-DRC" Name="multi_seven_seg_drc_pwropted.rpt"/>
-  <File Type="PWROPT-TIMING" Name="multi_seven_seg_timing_summary_pwropted.rpt"/>
-  <File Type="PLACE-DCP" Name="multi_seven_seg_placed.dcp"/>
-  <File Type="PLACE-IO" Name="multi_seven_seg_io_placed.rpt"/>
-  <File Type="PLACE-CLK" Name="multi_seven_seg_clock_utilization_placed.rpt"/>
-  <File Type="PLACE-UTIL" Name="multi_seven_seg_utilization_placed.rpt"/>
-  <File Type="PLACE-UTIL-PB" Name="multi_seven_seg_utilization_placed.pb"/>
-  <File Type="PLACE-CTRL" Name="multi_seven_seg_control_sets_placed.rpt"/>
-  <File Type="PLACE-SIMILARITY" Name="multi_seven_seg_incremental_reuse_placed.rpt"/>
-  <File Type="PLACE-PRE-SIMILARITY" Name="multi_seven_seg_incremental_reuse_pre_placed.rpt"/>
-  <File Type="BG-BIN" Name="multi_seven_seg.bin"/>
-  <File Type="PLACE-TIMING" Name="multi_seven_seg_timing_summary_placed.rpt"/>
-  <File Type="ROUTE-PWR-RPX" Name="multi_seven_seg_power_routed.rpx"/>
-  <File Type="PLACE-RQA-PB" Name="multi_seven_seg_rqa_placed.pb"/>
-  <File Type="POSTPLACE-PWROPT-DCP" Name="multi_seven_seg_postplace_pwropt.dcp"/>
-  <File Type="BITSTR-MSK" Name="multi_seven_seg.msk"/>
-  <File Type="POSTPLACE-PWROPT-TIMING" Name="multi_seven_seg_timing_summary_postplace_pwropted.rpt"/>
-  <File Type="PHYSOPT-DCP" Name="multi_seven_seg_physopt.dcp"/>
-  <File Type="PHYSOPT-DRC" Name="multi_seven_seg_drc_physopted.rpt"/>
-  <File Type="BITSTR-RBT" Name="multi_seven_seg.rbt"/>
-  <File Type="PHYSOPT-TIMING" Name="multi_seven_seg_timing_summary_physopted.rpt"/>
-  <File Type="ROUTE-ERROR-DCP" Name="multi_seven_seg_routed_error.dcp"/>
-  <File Type="ROUTE-DCP" Name="multi_seven_seg_routed.dcp"/>
-  <File Type="ROUTE-BLACKBOX-DCP" Name="multi_seven_seg_routed_bb.dcp"/>
-  <File Type="ROUTE-DRC" Name="multi_seven_seg_drc_routed.rpt"/>
-  <File Type="ROUTE-DRC-PB" Name="multi_seven_seg_drc_routed.pb"/>
-  <File Type="ROUTE-DRC-RPX" Name="multi_seven_seg_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="multi_seven_seg_methodology_drc_routed.rpt"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="multi_seven_seg_methodology_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="multi_seven_seg_methodology_drc_routed.pb"/>
-  <File Type="ROUTE-RQS-PB" Name="multi_seven_seg_rqs_routed.pb"/>
-  <File Type="ROUTE-STATUS" Name="multi_seven_seg_route_status.rpt"/>
-  <File Type="ROUTE-STATUS-PB" Name="multi_seven_seg_route_status.pb"/>
-  <File Type="ROUTE-TIMINGSUMMARY" Name="multi_seven_seg_timing_summary_routed.rpt"/>
-  <File Type="ROUTE-TIMING-PB" Name="multi_seven_seg_timing_summary_routed.pb"/>
-  <File Type="ROUTE-TIMING-RPX" Name="multi_seven_seg_timing_summary_routed.rpx"/>
-  <File Type="ROUTE-SIMILARITY" Name="multi_seven_seg_incremental_reuse_routed.rpt"/>
-  <File Type="ROUTE-CLK" Name="multi_seven_seg_clock_utilization_routed.rpt"/>
-  <File Type="ROUTE-BUS-SKEW" Name="multi_seven_seg_bus_skew_routed.rpt"/>
-  <File Type="ROUTE-BUS-SKEW-PB" Name="multi_seven_seg_bus_skew_routed.pb"/>
-  <File Type="ROUTE-BUS-SKEW-RPX" Name="multi_seven_seg_bus_skew_routed.rpx"/>
-  <File Type="POSTROUTE-PHYSOPT-DCP" Name="multi_seven_seg_postroute_physopt.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="multi_seven_seg_postroute_physopt_bb.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="multi_seven_seg_timing_summary_postroute_physopted.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="multi_seven_seg_timing_summary_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="multi_seven_seg_timing_summary_postroute_physopted.rpx"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="multi_seven_seg_bus_skew_postroute_physopted.rpt"/>
-  <File Type="BG-BIT" Name="multi_seven_seg.bit"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="multi_seven_seg_bus_skew_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="multi_seven_seg_bus_skew_postroute_physopted.rpx"/>
-  <File Type="BITSTR-NKY" Name="multi_seven_seg.nky"/>
-  <File Type="BITSTR-BMM" Name="multi_seven_seg_bd.bmm"/>
-  <File Type="BITSTR-MMI" Name="multi_seven_seg.mmi"/>
-  <File Type="PDI-FILE" Name="multi_seven_seg.pdi"/>
-  <File Type="BOOT-PDI-FILE" Name="multi_seven_seg_boot.pdi"/>
-  <File Type="PL-PDI-FILE" Name="multi_seven_seg_pld.pdi"/>
-  <File Type="RCFI_FILE" Name="multi_seven_seg.rcfi"/>
-  <File Type="CFI_FILE" Name="multi_seven_seg.cfi"/>
-  <File Type="RNPI_FILE" Name="multi_seven_seg.rnpi"/>
-  <File Type="NPI_FILE" Name="multi_seven_seg.npi"/>
-  <File Type="RBD_FILE" Name="multi_seven_seg.rbd"/>
+<GenRun Id="impl_1" LaunchPart="xc7a35tftg256-1" LaunchTime="1744707114">
+  <File Type="ROUTE-PWR" Name="alchitry_top_power_routed.rpt"/>
+  <File Type="PA-TCL" Name="alchitry_top.tcl"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="alchitry_top_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="alchitry_top_timing_summary_init.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="alchitry_top_power_summary_routed.pb"/>
+  <File Type="OPT-RQA-PB" Name="alchitry_top_rqa_opted.pb"/>
+  <File Type="REPORTS-TCL" Name="alchitry_top_reports.tcl"/>
+  <File Type="OPT-TIMING" Name="alchitry_top_timing_summary_opted.rpt"/>
+  <File Type="OPT-DCP" Name="alchitry_top_opt.dcp"/>
+  <File Type="OPT-DRC" Name="alchitry_top_drc_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="alchitry_top.hwdef"/>
+  <File Type="PWROPT-DCP" Name="alchitry_top_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="alchitry_top_drc_pwropted.rpt"/>
+  <File Type="PWROPT-TIMING" Name="alchitry_top_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="alchitry_top_placed.dcp"/>
+  <File Type="PLACE-IO" Name="alchitry_top_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="alchitry_top_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="alchitry_top_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="alchitry_top_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="alchitry_top_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="alchitry_top_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="alchitry_top_incremental_reuse_pre_placed.rpt"/>
+  <File Type="BG-BIN" Name="alchitry_top.bin"/>
+  <File Type="PLACE-TIMING" Name="alchitry_top_timing_summary_placed.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="alchitry_top_power_routed.rpx"/>
+  <File Type="PLACE-RQA-PB" Name="alchitry_top_rqa_placed.pb"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="alchitry_top_postplace_pwropt.dcp"/>
+  <File Type="BITSTR-MSK" Name="alchitry_top.msk"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="alchitry_top_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="alchitry_top_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="alchitry_top_drc_physopted.rpt"/>
+  <File Type="BITSTR-RBT" Name="alchitry_top.rbt"/>
+  <File Type="PHYSOPT-TIMING" Name="alchitry_top_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="alchitry_top_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="alchitry_top_routed.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="alchitry_top_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="alchitry_top_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="alchitry_top_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="alchitry_top_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="alchitry_top_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="alchitry_top_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="alchitry_top_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-RQS-PB" Name="alchitry_top_rqs_routed.pb"/>
+  <File Type="ROUTE-STATUS" Name="alchitry_top_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="alchitry_top_route_status.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="alchitry_top_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="alchitry_top_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="alchitry_top_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="alchitry_top_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="alchitry_top_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="alchitry_top_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="alchitry_top_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="alchitry_top_bus_skew_routed.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="alchitry_top_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="alchitry_top_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="alchitry_top_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="alchitry_top_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="alchitry_top_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="alchitry_top_bus_skew_postroute_physopted.rpt"/>
+  <File Type="BG-BIT" Name="alchitry_top.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="alchitry_top_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="alchitry_top_bus_skew_postroute_physopted.rpx"/>
+  <File Type="BITSTR-NKY" Name="alchitry_top.nky"/>
+  <File Type="BITSTR-BMM" Name="alchitry_top_bd.bmm"/>
+  <File Type="BITSTR-MMI" Name="alchitry_top.mmi"/>
+  <File Type="PDI-FILE" Name="alchitry_top.pdi"/>
+  <File Type="BOOT-PDI-FILE" Name="alchitry_top_boot.pdi"/>
+  <File Type="PL-PDI-FILE" Name="alchitry_top_pld.pdi"/>
+  <File Type="RCFI_FILE" Name="alchitry_top.rcfi"/>
+  <File Type="CFI_FILE" Name="alchitry_top.cfi"/>
+  <File Type="RNPI_FILE" Name="alchitry_top.rnpi"/>
+  <File Type="NPI_FILE" Name="alchitry_top.npi"/>
+  <File Type="RBD_FILE" Name="alchitry_top.rbd"/>
   <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
-  <File Type="BITSTR-LTX" Name="multi_seven_seg.ltx"/>
-  <File Type="BITSTR-SYSDEF" Name="multi_seven_seg.sysdef"/>
-  <File Type="BG-BGN" Name="multi_seven_seg.bgn"/>
-  <File Type="BG-DRC" Name="multi_seven_seg.drc"/>
-  <File Type="RDI-RDI" Name="multi_seven_seg.vdi"/>
+  <File Type="BITSTR-LTX" Name="alchitry_top.ltx"/>
+  <File Type="BITSTR-SYSDEF" Name="alchitry_top.sysdef"/>
+  <File Type="BG-BGN" Name="alchitry_top.bgn"/>
+  <File Type="BG-DRC" Name="alchitry_top.drc"/>
+  <File Type="RDI-RDI" Name="alchitry_top.vdi"/>
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
-  <File Type="ROUTE-RQS" Name="multi_seven_seg_routed.rqs"/>
-  <File Type="POSTROUTE-PHYSOPT-RQS" Name="multi_seven_seg_postroute_physopted.rqs"/>
+  <File Type="ROUTE-RQS" Name="alchitry_top_routed.rqs"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS" Name="alchitry_top_postroute_physopted.rqs"/>
   <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>
   <File Type="POSTROUTE-PHYSOPT-RQS-RPT" Name="postroute_physopt_report_qor_suggestions_0.rpt"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/imports/source/alu.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/alu.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/source/bin_to_dec.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/bin_to_dec.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/source/button_conditioner.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/button_conditioner.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/source/button_input_handler.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/button_input_handler.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/imports/source/counter.sv">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../source/counter.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -98,16 +134,52 @@
     <File Path="$PSRCDIR/sources_1/imports/source/decoder.sv">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../source/decoder.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/seven_seg.sv">
+    <File Path="$PSRCDIR/sources_1/imports/source/edge_detector.sv">
       <FileInfo>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/seven_seg.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/edge_detector.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/source/game_cu.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/game_cu.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/source/game_datapath.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/game_datapath.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/source/game_regfiles.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/game_regfiles.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/source/led_bar_handler.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/led_bar_handler.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -116,17 +188,16 @@
     <File Path="$PSRCDIR/sources_1/imports/source/multi_seven_seg.sv">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../source/multi_seven_seg.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/alchitry_top.sv">
+    <File Path="$PSRCDIR/sources_1/imports/source/pipeline.sv">
       <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/alchitry_top.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/pipeline.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -134,69 +205,35 @@
     </File>
     <File Path="$PSRCDIR/sources_1/imports/source/reset_conditioner.sv">
       <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="ImportPath" Val="$PPRDIR/../source/reset_conditioner.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/game_cu.sv">
+    <File Path="$PSRCDIR/sources_1/imports/source/seven_seg.sv">
       <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/game_cu.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/seven_seg.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/alu.sv">
+    <File Path="$PSRCDIR/sources_1/imports/source/ws2812b_driver.sv">
       <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/alu.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/ws2812b_driver.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/game_datapath.sv">
+    <File Path="$PSRCDIR/sources_1/imports/source/alchitry_top.sv">
       <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/game_datapath.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/game_regfiles.sv">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/game_regfiles.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/edge_detector.sv">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/edge_detector.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/button_input_handler.sv">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/button_input_handler.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../source/alchitry_top.sv"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -206,27 +243,7 @@
       <FileInfo>
         <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="ImportPath" Val="$PPRDIR/../source/button_input_tester.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/pipeline.sv">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/pipeline.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/imports/source/button_conditioner.sv">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="ImportPath" Val="$PPRDIR/../source/button_conditioner.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -236,7 +253,7 @@
       <FileInfo>
         <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="ImportPath" Val="$PPRDIR/../source/lucid_globals.sv"/>
-        <Attr Name="ImportTime" Val="1744657537"/>
+        <Attr Name="ImportTime" Val="1744707021"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -244,7 +261,7 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="multi_seven_seg"/>
+      <Option Name="TopModule" Val="alchitry_top"/>
       <Option Name="TopAutoSet" Val="TRUE"/>
     </Config>
   </FileSet>

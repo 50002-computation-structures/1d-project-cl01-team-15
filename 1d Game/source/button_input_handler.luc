@@ -10,7 +10,7 @@ module button_input_handler(
 
     sig conditioned[18];   // Output of conditioners
     sig edges[18];         // Rising edge detected
-
+    sig validity
     sig active[9];         // Active buttons (for current player)
     //sig pos[4];            // Position output (1–9)
 
@@ -29,10 +29,11 @@ module button_input_handler(
         btn_edge.in = btn_cond.out
         conditioned = btn_cond.out
         edges = btn_edge.out
-
+        
+        validity = 1
         // Step 2: isolate active buttons
         active = 9x{0}
-        repeat (i, 8, 0) {
+        repeat (i, 9, 0) {
             if (player == 0)
                 active[i] = edges[i]
             else
@@ -42,10 +43,11 @@ module button_input_handler(
         // Step 3: scan for first valid press
         pos.d = 0
         valid = 0
-        repeat (i, 8, 0) {
-            if (active[i]) {
+        repeat (i, 9, 0) {
+            if (active[i] & validity) {
                 pos.d = i + 1
                 valid = 1
+                validity = 0
             }
         }
 
