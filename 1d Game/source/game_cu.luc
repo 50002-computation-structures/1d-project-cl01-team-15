@@ -1,0 +1,710 @@
+module game_cu (
+    input clk,  // clock
+    input rst,  // reset
+    input button_press,
+    input decrease_timer, //game clock edge
+    input display_timer, //clock edge for time between led display
+    
+    
+    // from regfile
+    input bool,
+    input current_player,
+    
+    output alufn[6],
+    output asel[3],
+    output bsel[3],
+    output alu_out_sel[3],
+    output regfile_wa[4],
+    output regfile_ra1[4],
+    output regfile_ra2[4],
+    output regfile_we,
+    output debug[6]
+) {
+    
+    enum GameStates {
+        //Set Loop
+        SET,
+        REDUCE_SETTER_TIMER,
+        CHECK_SETTER_TIMER_END,
+        STORE_SETTER_INPUT,
+        SHIFT_PASSWORD,
+        ADD_TO_PASSWORD,
+        INCREMENT_SETTER_POINTER,
+        CHECK_SETTER_INPUT_END,
+        RESET_SETTER_POINTER,
+        RESET_SETTER_TIMER,    //10
+        
+        CHANGE_TO_DISPLAY_GAME_STATE,
+        CHANGE_SETTER_TO_PLAYER,
+        
+        //Display Loop
+        SHIFT_PASSWORD_DISPLAY,
+        FILTER_PASSWORD_DISPLAY,
+        DISPLAY_DIGIT,
+        CLEAR_DISPLAY,
+        INCREMENT_DISPLAY_POINTER,
+        CHECK_DISPLAY_END,
+        RESET_DISPLAY_POINTER,
+        
+        CHANGE_TO_PLAY_GAME_STATE,  //20
+        
+        //Play loop
+        PLAY,
+        REDUCE_PLAYER_TIMER,
+        CHECK_PLAYER_TIMER_END,
+        STORE_PLAYER_INPUT,
+        SHIFT_PASSWORD_PLAY,
+        FILTER_PASSWORD_PLAY,
+        COMPARE_INPUT_WITH_PASSWORD,
+        INCREMENT_PLAYER_POINTER,
+        CHECK_PLAYER_INPUT_END,
+        
+        RESET_PLAYER_TIMER,  //30
+        RESET_PLAYER_POINTER,
+        
+        //Progress Round
+        CHECK_ROUND_NUMBER,
+        INCREMENT_ROUND,
+        INCREASE_DIFFICULTY,
+        CHANGE_TO_SETTER_GAME_STATE,
+        CHANGE_PLAYER_TO_SETTER,
+        
+        //GAME OVER
+        DISPLAY_ONE_PLAYER_WINS,
+        DISPLAY_BOTH_WIN,
+        SHOW_CHICKEN_DEATH,
+        
+        //SUPER RESET
+        RESET_POINTER, //40
+        RESET_GAME_STATE,
+        RESET_PLAYER,
+        RESET_TIMER,
+        CLEAR_WINNERS,
+        IDLE
+        
+    }
+    
+    dff game_fsm[$width(GameStates)](#INIT(GameStates.RESET_POINTER), .clk(clk), .rst(rst))
+    
+    always {
+        
+        // standard setting unless otherwise overwritten by each case 
+        alufn = 0
+        asel = 0 
+        bsel = 0
+        regfile_we = 0
+        regfile_wa = d6 
+        regfile_ra1 = d0
+        regfile_ra2 = d0
+        alu_out_sel = 0
+        
+        
+        debug = game_fsm.q
+        
+        game_fsm.d = game_fsm.q
+        if (rst){
+            game_fsm.d = GameStates.RESET_POINTER
+        }
+        
+        else{
+            
+            case(game_fsm.q){
+                GameStates.SET:
+
+                    if (button_press){
+                        game_fsm.d = GameStates.STORE_SETTER_INPUT
+                    }
+                    else if (decrease_timer){
+                        game_fsm.d = GameStates.REDUCE_SETTER_TIMER
+                    }
+
+GameStates.REDUCE_SETTER_TIMER:
+                    alufn = b000001  
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d0                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHECK_SETTER_TIMER_END
+
+GameStates.CHECK_SETTER_TIMER_END:
+                    alufn = b110101 
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d10                           
+                    alu_out_sel = d0
+                  
+                    if (bool){
+                        game_fsm.d = GameStates.DISPLAY_ONE_PLAYER_WINS
+                    } else {
+                        game_fsm.d = GameStates.SET
+                    }
+
+
+GameStates.STORE_SETTER_INPUT:
+                    alufn = 0 
+                    asel = 0
+                    bsel = 0  
+                    
+                    regfile_we = 1                 
+                    regfile_ra1 = 0         
+                    regfile_ra2 = 0
+                    regfile_wa = d8                           
+                    alu_out_sel = d3
+                  
+                    game_fsm.d = GameStates.SHIFT_PASSWORD
+
+GameStates.SHIFT_PASSWORD:
+                    alufn = b100000  
+                    asel = b00 
+                    bsel = b100   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d4         
+                    regfile_ra2 = d0
+                    regfile_wa = d4                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.ADD_TO_PASSWORD
+
+GameStates.ADD_TO_PASSWORD:
+                    alufn = b011110 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d4         
+                    regfile_ra2 = d8
+                    regfile_wa = d4                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.INCREMENT_SETTER_POINTER
+
+GameStates.INCREMENT_SETTER_POINTER:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d5         
+                    regfile_ra2 = d0
+                    regfile_wa = d5                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHECK_SETTER_INPUT_END
+GameStates.CHECK_SETTER_INPUT_END:
+                    alufn = b110111 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d5         
+                    regfile_ra2 = d2
+                    regfile_wa = d10                           
+                    alu_out_sel = d0
+                  
+                    if (bool){
+                        game_fsm.d = GameStates.SET
+                    } else {
+                        game_fsm.d = GameStates.RESET_SETTER_POINTER
+                    }
+
+GameStates.RESET_SETTER_POINTER:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d0                           
+                    alu_out_sel = d2
+                  
+                    game_fsm.d = GameStates.RESET_SETTER_TIMER
+
+GameStates.RESET_SETTER_TIMER:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d0                           
+                    alu_out_sel = d2
+                  
+                    game_fsm.d = GameStates.CHANGE_TO_DISPLAY_GAME_STATE
+
+GameStates.CHANGE_TO_DISPLAY_GAME_STATE:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d9        
+                    regfile_ra2 = d0
+                    regfile_wa = d9                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHANGE_SETTER_TO_PLAYER
+
+GameStates.CHANGE_SETTER_TO_PLAYER:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d3         
+                    regfile_ra2 = d0
+                    regfile_wa = d3                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.SHIFT_PASSWORD_DISPLAY
+
+GameStates.SHIFT_PASSWORD_DISPLAY:
+                    alufn = b100001  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d4         
+                    regfile_ra2 = d5
+                    regfile_wa = d6                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.FILTER_PASSWORD_DISPLAY
+
+GameStates.FILTER_PASSWORD_DISPLAY:
+                    alufn = b011000  
+                    asel = b01 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d5
+                    regfile_wa = d5                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.DISPLAY_DIGIT
+
+GameStates.DISPLAY_DIGIT:
+                    alufn = b011010 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d6         
+                    regfile_ra2 = d0
+                    regfile_wa = d1                           
+                    alu_out_sel = d0
+                    
+                    if(display_timer){
+                      game_fsm.d = GameStates.CLEAR_DISPLAY
+
+                    }
+
+GameStates.CLEAR_DISPLAY:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d1                           
+                    alu_out_sel = d1
+                  
+                    game_fsm.d = GameStates.INCREMENT_DISPLAY_POINTER
+                
+GameStates.INCREMENT_DISPLAY_POINTER:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d5         
+                    regfile_ra2 = d0
+                    regfile_wa = d5                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHECK_DISPLAY_END
+
+GameStates.CHECK_DISPLAY_END:
+                    alufn = b110111  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d5         
+                    regfile_ra2 = d2
+                    regfile_wa = d10                           
+                    alu_out_sel = d0
+                  
+                    if (bool){
+                        game_fsm.d = GameStates.SHIFT_PASSWORD_DISPLAY
+                    } else {
+                        game_fsm.d = GameStates.RESET_DISPLAY_POINTER
+                    }
+
+GameStates.RESET_DISPLAY_POINTER:
+                    alufn = b011010  
+                    asel = b01 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d5
+                    regfile_wa = d5                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHANGE_TO_PLAY_GAME_STATE
+
+GameStates.CHANGE_TO_PLAY_GAME_STATE:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d9         
+                    regfile_ra2 = d0
+                    regfile_wa = d9                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.PLAY
+
+GameStates.PLAY:
+                    if (button_press){
+                        game_fsm.d = GameStates.STORE_PLAYER_INPUT
+                    }
+                    else if (decrease_timer){
+                        game_fsm.d = GameStates.REDUCE_PLAYER_TIMER
+                    }
+
+GameStates.REDUCE_PLAYER_TIMER:
+                    alufn = b000001  
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d0                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHECK_PLAYER_TIMER_END
+
+GameStates.CHECK_PLAYER_TIMER_END:
+                    alufn = b110101 
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d10                           
+                    alu_out_sel = d0
+                  
+                    if (bool){
+                        game_fsm.d = GameStates.DISPLAY_ONE_PLAYER_WINS
+                    } else {
+                        game_fsm.d = GameStates.PLAY
+                    }
+
+GameStates.STORE_PLAYER_INPUT:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d8                           
+                    alu_out_sel = d3
+                  
+                    game_fsm.d = GameStates.SHIFT_PASSWORD_PLAY
+
+GameStates.SHIFT_PASSWORD_PLAY:
+                    alufn = b100001  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d4         
+                    regfile_ra2 = d5
+                    regfile_wa = d6                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.FILTER_PASSWORD_PLAY
+
+GameStates.FILTER_PASSWORD_PLAY:
+                    alufn = b011000  
+                    asel = b00 
+                    bsel = b01   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d6         
+                    regfile_ra2 = d0
+                    regfile_wa = d6                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.COMPARE_INPUT_WITH_PASSWORD
+
+GameStates.COMPARE_INPUT_WITH_PASSWORD:
+                    alufn = b110011  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d6         
+                    regfile_ra2 = d8
+                    regfile_wa = d10                          
+                    alu_out_sel = d0
+                  
+                    if (bool){
+                        game_fsm.d = GameStates.INCREMENT_PLAYER_POINTER
+                    } else {
+                        game_fsm.d = GameStates.SHOW_CHICKEN_DEATH
+                    }
+
+GameStates.INCREMENT_PLAYER_POINTER:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d5         
+                    regfile_ra2 = d0
+                    regfile_wa = d5                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHECK_PLAYER_INPUT_END
+
+GameStates.CHECK_PLAYER_INPUT_END:
+                    alufn = b110111 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d5         
+                    regfile_ra2 = d2
+                    regfile_wa = d10                           
+                    alu_out_sel = d0
+                  
+                    if (bool){
+                        game_fsm.d = GameStates.PLAY
+                    } else {
+                        game_fsm.d = GameStates.RESET_PLAYER_TIMER
+                    }
+
+GameStates.RESET_PLAYER_TIMER:
+                    alufn = b000000  
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d0                           
+                    alu_out_sel = d2
+                  
+                    game_fsm.d = GameStates.RESET_PLAYER_POINTER
+
+
+GameStates.RESET_PLAYER_POINTER:
+                    alufn = b011010 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d5         
+                    regfile_ra2 = d0
+                    regfile_wa = d5                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHECK_ROUND_NUMBER
+
+
+GameStates.CHECK_ROUND_NUMBER:
+                    alufn = b110101 
+                    asel = b00//MAX ROUNDS
+                    bsel = b01   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d2         
+                    regfile_ra2 = d0
+                    regfile_wa = d10                           
+                    alu_out_sel = d0
+                  
+                    if (bool){
+                        game_fsm.d = GameStates.INCREMENT_ROUND
+                    } else {
+                        game_fsm.d = GameStates.DISPLAY_BOTH_WIN
+                    }
+
+GameStates.INCREMENT_ROUND:
+                    alufn = b110101 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d5         
+                    regfile_ra2 = d2
+                    regfile_wa = d10                           
+                    alu_out_sel = d0
+                  
+                    if (current_player){
+                        game_fsm.d = GameStates.INCREASE_DIFFICULTY
+                    } else {
+                        game_fsm.d = GameStates.CHANGE_TO_SETTER_GAME_STATE
+                    }
+GameStates.INCREASE_DIFFICULTY:
+                    alufn = b000000 
+                    asel = b00 
+                    bsel = b10   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d7         
+                    regfile_ra2 = d0
+                    regfile_wa = d7                           
+                    alu_out_sel = d0
+                  
+                    game_fsm.d = GameStates.CHANGE_TO_SETTER_GAME_STATE
+GameStates.CHANGE_TO_SETTER_GAME_STATE:
+                    alufn = b000000 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d9                           
+                    alu_out_sel = d1
+                  
+                    game_fsm.d = GameStates.CHANGE_PLAYER_TO_SETTER
+
+GameStates.CHANGE_PLAYER_TO_SETTER:
+                    alufn = b000000 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d3                           
+                    alu_out_sel = d1
+                  
+                    game_fsm.d = GameStates.SET
+
+GameStates.DISPLAY_ONE_PLAYER_WINS:
+    alufn = 0
+
+GameStates.DISPLAY_BOTH_WIN:
+    alufn = 0
+
+GameStates.SHOW_CHICKEN_DEATH:
+                    alufn = b011010 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d6         
+                    regfile_ra2 = d0
+                    regfile_wa = d1                           
+                    alu_out_sel = d0
+                  
+                    if (button_press){
+                        game_fsm.d = GameStates.DISPLAY_ONE_PLAYER_WINS
+                    }
+GameStates.RESET_POINTER:
+                    alufn = b000000 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d5                           
+                    alu_out_sel = d1
+                  
+                    game_fsm.d = GameStates.RESET_GAME_STATE
+
+
+GameStates.RESET_GAME_STATE:
+                    alufn = b000000 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d9                           
+                    alu_out_sel = d1
+                  
+                    game_fsm.d = GameStates.RESET_PLAYER
+
+
+GameStates.RESET_PLAYER:
+                    alufn = b000000 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d3                           
+                    alu_out_sel = d1
+                  
+                    game_fsm.d = GameStates.RESET_TIMER
+
+
+GameStates.RESET_TIMER:
+                    alufn = b000000 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d0                           
+                    alu_out_sel = d2
+                  
+                    game_fsm.d = GameStates.CLEAR_WINNERS
+
+
+GameStates.CLEAR_WINNERS:
+                    alufn = b000000 
+                    asel = b00 
+                    bsel = b00   
+                    
+                    regfile_we = d1                 
+                    regfile_ra1 = d0         
+                    regfile_ra2 = d0
+                    regfile_wa = d1                           
+                    alu_out_sel = d1
+                  
+                    game_fsm.d = GameStates.IDLE
+
+
+                
+GameStates.IDLE:
+               if (button_press){
+                    game_fsm.d = GameStates.SET
+               }
+
+
+                
+                                
+                
+            }
+        }
+        
+    }
+}

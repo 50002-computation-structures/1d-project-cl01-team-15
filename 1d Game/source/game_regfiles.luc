@@ -1,0 +1,111 @@
+// regfile.luc
+module game_regfiles (
+    input clk,  // clock
+    input rst,  // reset
+    input wa[4], // write address
+    input we, // write enable
+    input data[32], // data in
+    
+    input ra1[4], // read address port 1
+    input ra2[4], // read address port 2
+    output rd1[32], // read data port 1
+    output rd2[32], // read data port 1
+    
+    // states
+    output timer_out[32],
+    output current_button_light_out[32],
+    output current_round_out[32],
+    output current_player_out[32],
+    output boolean_out[32],
+    
+    //debug
+    output user_input_out[32],
+    output debug[32]
+    
+) 
+
+{
+    .clk(clk){
+        .rst(rst){
+            //display registers
+            dff timer[32](#INIT(0))
+            dff current_button_light[32](#INIT(0))
+            dff current_round[32](#INIT(0))
+            dff current_player[32](#INIT(0))
+            
+            //data registers
+            dff password[32](#INIT(0))
+            dff pointer[32](#INIT(0))
+            dff filtered_password[32](#INIT(0))
+            dff difficulty[32](#INIT(0))
+            dff user_input[32](#INIT(0))
+            dff game_state[32](#INIT(0))
+            dff boolean[32](#INIT(0))
+
+        }
+    }
+    
+    always {
+        
+        //write port
+        if (we){
+            case(wa){
+                d0 : timer.d = data
+                d1 : current_button_light.d = data
+                d2 : current_round.d = data
+                d3 : current_player.d = data
+                d4 : password.d = data
+                d5 : pointer.d = data
+                d6 : filtered_password.d = data
+                d7 : difficulty.d = data
+                d8 : user_input.d = data
+                d9 : game_state.d = data
+                d10: boolean.d = data
+
+            }
+        }
+        
+        
+        //read port a
+        case(ra1){
+            d0 : rd1 = timer.q
+            d1 : rd1 = current_button_light.q
+            d2 : rd1 = current_round.q
+            d3 : rd1 = current_player.q
+            d4 : rd1 = password.q
+            d5 : rd1 = pointer.q
+            d6 : rd1 = filtered_password.q
+            d7 : rd1 = difficulty.q
+            d8 : rd1 = user_input.q
+            d9 : rd1 = game_state.q
+            d10: rd1 = boolean.q
+            default : rd1 = 0
+        }
+        
+        //read port b
+        case(ra2){
+            d0 : rd2 = timer.q
+            d1 : rd2 = current_button_light.q
+            d2 : rd2 = current_round.q
+            d3 : rd2 = current_player.q
+            d4 : rd2 = password.q
+            d5 : rd2 = pointer.q
+            d6 : rd2 = filtered_password.q
+            d7 : rd2 = difficulty.q
+            d8 : rd2 = user_input.q
+            d9 : rd2 = game_state.q
+            d10: rd2 = boolean.q
+            default : rd2 = 0
+        }
+
+        timer_out = timer.q
+        current_button_light_out = current_button_light.q
+        current_round_out = current_round.q
+        current_player_out = current_player.q
+        boolean_out = boolean.q
+         
+        //debug
+        user_input_out = user_input.q
+        debug = password.q
+    }
+}

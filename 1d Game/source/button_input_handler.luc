@@ -1,0 +1,54 @@
+module button_input_handler(
+    input clk,
+    input rst,
+    input btns[18],       // All 18 button inputs
+    input player,         // 0 for player 1, 1 for player 2
+    output valid,         // Goes high when a legal press occurs
+    output position[4]    // Position of button pressed (1–9)
+) {
+    const CLK_FREQ = $is_sim() ? 1000 : 100000000
+
+    sig conditioned[18];   // Output of conditioners
+    sig edges[18];         // Rising edge detected
+
+    sig active[9];         // Active buttons (for current player)
+    //sig pos[4];            // Position output (1–9)
+
+    .clk(clk) {
+        // One conditioner and edge detector per button
+        button_conditioner btn_cond[18](#CLK_FREQ(18x{{CLK_FREQ}}))
+        edge_detector btn_edge[18](#RISE(18x{{1}}), #FALL(18x{{0}}))
+        .rst(rst){
+            dff pos[4]
+        }
+    }
+
+    always {
+        // Step 1: condition and detect edges
+        btn_cond.in = btns
+        btn_edge.in = btn_cond.out
+        conditioned = btn_cond.out
+        edges = btn_edge.out
+
+        // Step 2: isolate active buttons
+        active = 9x{0}
+        repeat (i, 8, 0) {
+            if (player == 0)
+                active[i] = edges[i]
+            else
+                active[i] = edges[i + 9]
+        }
+
+        // Step 3: scan for first valid press
+        pos.d = 0
+        valid = 0
+        repeat (i, 8, 0) {
+            if (active[i]) {
+                pos.d = i + 1
+                valid = 1
+            }
+        }
+
+        position = pos.q
+    }
+}
