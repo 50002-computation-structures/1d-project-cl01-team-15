@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Wed Apr 16 03:04:24 2025
+| Date         : Wed Apr 16 08:17:45 2025
 | Host         : Amith_Zen running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file alchitry_top_control_sets_placed.rpt
 | Design       : alchitry_top
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |    35 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    69 |
+| Unused register locations in slices containing registers |    66 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -42,12 +42,12 @@ Table of Contents
 | Total control sets |    35 |
 | >= 0 to < 4        |     0 |
 | >= 4 to < 6        |     0 |
-| >= 6 to < 8        |     0 |
+| >= 6 to < 8        |     1 |
 | >= 8 to < 10       |     0 |
 | >= 10 to < 12      |     0 |
 | >= 12 to < 14      |     0 |
 | >= 14 to < 16      |    19 |
-| >= 16              |    16 |
+| >= 16              |    15 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,12 +58,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              68 |           27 |
+| No           | No                    | No                     |              68 |           26 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |              77 |           21 |
+| No           | Yes                   | No                     |              78 |           22 |
 | Yes          | No                    | No                     |               0 |            0 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             722 |          259 |
+| Yes          | Yes                   | No                     |             668 |          259 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -73,41 +73,41 @@ Table of Contents
 +----------------+---------------------------------------------------------------------------+----------------------------------------------------------------------------+------------------+----------------+--------------+
 |  Clock Signal  |                               Enable Signal                               |                              Set/Reset Signal                              | Slice Load Count | Bel Load Count | Bels / Slice |
 +----------------+---------------------------------------------------------------------------+----------------------------------------------------------------------------+------------------+----------------+--------------+
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[14].btn_cond/D_ctr_q[0]_i_2__4_n_0 | input_handler/forLoop_idx_0_1249631209[14].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[0].btn_cond/D_ctr_q[0]_i_2__18_n_0 | input_handler/forLoop_idx_0_1249631209[0].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[10].btn_cond/D_ctr_q[0]_i_2__8_n_0 | input_handler/forLoop_idx_0_1249631209[10].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[11].btn_cond/D_ctr_q[0]_i_2__7_n_0 | input_handler/forLoop_idx_0_1249631209[11].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[12].btn_cond/D_ctr_q[0]_i_2__6_n_0 | input_handler/forLoop_idx_0_1249631209[12].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[7].btn_cond/D_ctr_q_reg[7]_0       | input_handler/forLoop_idx_0_1249631209[7].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[8].btn_cond/D_ctr_q[0]_i_2__10_n_0 | input_handler/forLoop_idx_0_1249631209[8].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[9].btn_cond/D_ctr_q[0]_i_2__9_n_0  | input_handler/forLoop_idx_0_1249631209[9].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[15].btn_cond/D_ctr_q[0]_i_2__3_n_0 | input_handler/forLoop_idx_0_1249631209[15].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[16].btn_cond/D_ctr_q[0]_i_2__2_n_0 | input_handler/forLoop_idx_0_1249631209[16].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[17].btn_cond/sel                   | input_handler/forLoop_idx_0_1249631209[17].btn_cond/sync/clear             |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[1].btn_cond/D_ctr_q_reg[1]_0       | input_handler/forLoop_idx_0_1249631209[1].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[2].btn_cond/D_ctr_q[0]_i_2__16_n_0 | input_handler/forLoop_idx_0_1249631209[2].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[3].btn_cond/D_ctr_q_reg[1]_0       | input_handler/forLoop_idx_0_1249631209[3].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[4].btn_cond/D_ctr_q_reg[1]_0       | input_handler/forLoop_idx_0_1249631209[4].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[5].btn_cond/D_ctr_q[0]_i_2__13_n_0 | input_handler/forLoop_idx_0_1249631209[5].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[13].btn_cond/D_ctr_q[0]_i_2__5_n_0 | input_handler/forLoop_idx_0_1249631209[13].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
-|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1249631209[6].btn_cond/D_ctr_q[0]_i_2__12_n_0 | input_handler/forLoop_idx_0_1249631209[6].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/FSM_sequential_D_game_fsm_q[5]_i_2_n_0              | external_reset_button_conditioner/rst                                      |                4 |              6 |         1.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[13].btn_cond/D_ctr_q[0]_i_2__5_n_0 | input_handler/forLoop_idx_0_1039685407[13].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[8].btn_cond/D_ctr_q[0]_i_2__10_n_0 | input_handler/forLoop_idx_0_1039685407[8].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[7].btn_cond/D_ctr_q_reg[7]_0       | input_handler/forLoop_idx_0_1039685407[7].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[6].btn_cond/D_ctr_q[0]_i_2__12_n_0 | input_handler/forLoop_idx_0_1039685407[6].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[5].btn_cond/D_ctr_q[0]_i_2__13_n_0 | input_handler/forLoop_idx_0_1039685407[5].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[4].btn_cond/D_ctr_q_reg[1]_0       | input_handler/forLoop_idx_0_1039685407[4].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[3].btn_cond/D_ctr_q_reg[1]_0       | input_handler/forLoop_idx_0_1039685407[3].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[2].btn_cond/D_ctr_q[0]_i_2__16_n_0 | input_handler/forLoop_idx_0_1039685407[2].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[10].btn_cond/D_ctr_q[0]_i_2__8_n_0 | input_handler/forLoop_idx_0_1039685407[10].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[0].btn_cond/D_ctr_q[0]_i_2__18_n_0 | input_handler/forLoop_idx_0_1039685407[0].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[16].btn_cond/D_ctr_q[0]_i_2__2_n_0 | input_handler/forLoop_idx_0_1039685407[16].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[15].btn_cond/D_ctr_q[0]_i_2__3_n_0 | input_handler/forLoop_idx_0_1039685407[15].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[14].btn_cond/D_ctr_q[0]_i_2__4_n_0 | input_handler/forLoop_idx_0_1039685407[14].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[17].btn_cond/sel                   | input_handler/forLoop_idx_0_1039685407[17].btn_cond/sync/clear             |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[1].btn_cond/D_ctr_q_reg[1]_0       | input_handler/forLoop_idx_0_1039685407[1].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[9].btn_cond/D_ctr_q[0]_i_2__9_n_0  | input_handler/forLoop_idx_0_1039685407[9].btn_cond/sync/D_pipe_q_reg[1]_0  |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[11].btn_cond/D_ctr_q[0]_i_2__7_n_0 | input_handler/forLoop_idx_0_1039685407[11].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
+|  clk_IBUF_BUFG | input_handler/forLoop_idx_0_1039685407[12].btn_cond/D_ctr_q[0]_i_2__6_n_0 | input_handler/forLoop_idx_0_1039685407[12].btn_cond/sync/D_pipe_q_reg[1]_0 |                4 |             14 |         3.50 |
 |  clk_IBUF_BUFG | external_reset_button_conditioner/sel                                     | external_reset_button_conditioner/sync/clear                               |                4 |             14 |         3.50 |
 |  clk_IBUF_BUFG |                                                                           | seg/ctr/D_ctr_q[0]_i_1_n_0                                                 |                5 |             18 |         3.60 |
+|  clk_IBUF_BUFG | external_reset_button_conditioner/E[0]                                    | external_reset_button_conditioner/rst                                      |               14 |             31 |         2.21 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_0[0]                                   | external_reset_button_conditioner/rst                                      |               12 |             32 |         2.67 |
 |  clk_IBUF_BUFG | game_datapath/game_cu/E[0]                                                | external_reset_button_conditioner/rst                                      |               12 |             32 |         2.67 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/FSM_onehot_D_game_fsm_q_reg[37]_0[0]                | external_reset_button_conditioner/rst                                      |               15 |             32 |         2.13 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg[0]                                     | external_reset_button_conditioner/rst                                      |               14 |             32 |         2.29 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_1[0]                                   | external_reset_button_conditioner/rst                                      |               12 |             32 |         2.67 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_2[0]                                   | external_reset_button_conditioner/rst                                      |               13 |             32 |         2.46 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_5[0]                                   | external_reset_button_conditioner/rst                                      |               11 |             32 |         2.91 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_6[0]                                   | external_reset_button_conditioner/rst                                      |               15 |             32 |         2.13 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_3[0]                                   | external_reset_button_conditioner/rst                                      |               13 |             32 |         2.46 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/FSM_onehot_D_game_fsm_q_reg[37]_2[0]                | external_reset_button_conditioner/rst                                      |               10 |             32 |         3.20 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/FSM_onehot_D_game_fsm_q_reg[37]_1[0]                | external_reset_button_conditioner/rst                                      |               16 |             33 |         2.06 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_4[0]                                   | external_reset_button_conditioner/rst                                      |               16 |             36 |         2.25 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_0[0]                                   | external_reset_button_conditioner/rst                                      |               16 |             40 |         2.50 |
-|  clk_IBUF_BUFG |                                                                           | external_reset_button_conditioner/rst                                      |               16 |             59 |         3.69 |
-|  clk_IBUF_BUFG | game_datapath/game_cu/FSM_onehot_D_game_fsm_q[58]_i_2_n_0                 | external_reset_button_conditioner/rst                                      |               20 |             59 |         2.95 |
-|  clk_IBUF_BUFG |                                                                           |                                                                            |               27 |             68 |         2.52 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_7[0]                                   | external_reset_button_conditioner/rst                                      |               15 |             32 |         2.13 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_2[0]                                   | external_reset_button_conditioner/rst                                      |               14 |             32 |         2.29 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_8[0]                                   | external_reset_button_conditioner/rst                                      |               15 |             32 |         2.13 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_4[0]                                   | external_reset_button_conditioner/rst                                      |               15 |             32 |         2.13 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_1[0]                                   | external_reset_button_conditioner/rst                                      |               14 |             32 |         2.29 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_5[0]                                   | external_reset_button_conditioner/rst                                      |               17 |             32 |         1.88 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_6[0]                                   | external_reset_button_conditioner/rst                                      |               20 |             33 |         1.65 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_9[0]                                   | external_reset_button_conditioner/rst                                      |               11 |             36 |         3.27 |
+|  clk_IBUF_BUFG | game_datapath/game_cu/D_last_q_reg_3[0]                                   | external_reset_button_conditioner/rst                                      |               20 |             40 |         2.00 |
+|  clk_IBUF_BUFG |                                                                           | external_reset_button_conditioner/rst                                      |               17 |             60 |         3.53 |
+|  clk_IBUF_BUFG |                                                                           |                                                                            |               26 |             68 |         2.62 |
 +----------------+---------------------------------------------------------------------------+----------------------------------------------------------------------------+------------------+----------------+--------------+
 
 

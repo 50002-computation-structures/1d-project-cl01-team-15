@@ -39,7 +39,8 @@ PINOUT(V1), STANDARD(LVCMOS33) {
         pin io_dip[1][3] B46
         pin io_dip[1][4] B48
         pin io_dip[1][5] B49
-        pin io_dip[1][6] A27
+        //pin io_dip[1][6] A27
+        pin io_dip[1][6] C48
         pin io_dip[1][7] A28
         pin io_dip[2][0] A30
         pin io_dip[2][1] A31

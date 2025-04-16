@@ -83,7 +83,6 @@ module game_cu (
         UPDATE_ATTEMPTS,
         
         //GAME OVER
-        DISPLAY_ONE_PLAYER_WINS,
     DISPLAY_PLAYER_ONE_WINS,
     DISPLAY_PLAYER_TWO_WINS,
         DISPLAY_BOTH_WIN,
@@ -678,8 +677,8 @@ GameStates.RESET_PLAYER_POINTER:
 
 GameStates.CHECK_ROUND_NUMBER:
                     alufn = b110101 
-                    asel = b00//MAX ROUNDS
-                    bsel = b01   
+                    asel = b00
+                    bsel = b01   //MAX ROUNDS
                     
                     regfile_we = d1                 
                     regfile_ra1 = d2         
@@ -765,10 +764,6 @@ GameStates.UPDATE_ATTEMPTS:
                   
                     game_fsm.d = GameStates.SET
 
-GameStates.DISPLAY_ONE_PLAYER_WINS:
-                if (button_press){
-                    game_fsm.d = GameStates.RESET_POINTER
-               }
 GameStates.DISPLAY_PLAYER_ONE_WINS:
                     alufn = b000000  
                     asel = b00 
@@ -779,7 +774,7 @@ GameStates.DISPLAY_PLAYER_ONE_WINS:
                     regfile_ra2 = d0
                     regfile_wa = d1                           
                     alu_out_sel = d6
-                if (button_press){
+                if (decrease_timer){
                          
                         regfile_we = d1  
                     game_fsm.d = GameStates.RESET_POINTER
@@ -794,7 +789,7 @@ GameStates.DISPLAY_PLAYER_ONE_WINS:
                     regfile_ra2 = d0
                     regfile_wa = d1                           
                     alu_out_sel = d5
-                if (button_press){
+                if (decrease_timer){
                          
                         regfile_we = d1  
                     game_fsm.d = GameStates.RESET_POINTER
@@ -810,7 +805,7 @@ GameStates.DISPLAY_BOTH_WIN:
                     regfile_ra2 = d0
                     regfile_wa = d1                           
                     alu_out_sel = d7
-                if (button_press){
+                if (decrease_timer){
                         
                         regfile_we = d1  
                     game_fsm.d = GameStates.RESET_POINTER

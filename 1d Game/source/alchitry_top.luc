@@ -16,7 +16,7 @@ module alchitry_top (
     sig rst                 // reset signal
     const CLK_FREQ = $is_sim() ? 1000 : 10000000 // put 1000 for sim, 100M for hardware 
     const SEVEN_SEG_DIV = $is_sim() ? 3 : 16 // put 3 for sim, 16 for hardware
-    const SLOW_CLOCK_DIV = $is_sim() ? 9 : 26 // put 9 for sim, 26 for hardware 
+    const SLOW_CLOCK_DIV = $is_sim() ? 9 : 27 // put 9 for sim, 26 for hardware 
     const FAST_CLOCK_DIV = $is_sim() ? 8 : 25 // put 7 for sim, 21 for hardware 
     const BOOLEAN_CLOCK_DIV = $is_sim() ? 1 : 5 // put 7 for sim, 21 for hardware 
     
@@ -32,7 +32,7 @@ module alchitry_top (
             multi_seven_seg seg(#DIV(SEVEN_SEG_DIV))
             game_datapath game_datapath(#SLOW_CLOCK_DIV(SLOW_CLOCK_DIV), #FAST_CLOCK_DIV(FAST_CLOCK_DIV),
                  #BOOLEAN_CLOCK_DIV(BOOLEAN_CLOCK_DIV))
-            //button_input_tester tester(.btn(io_button), .dips(io_dip))
+         
             button_input_handler input_handler(.btns(c{io_dip[0], io_dip[2][0], io_dip[1], io_dip[2][1]}),
             
             
@@ -46,7 +46,7 @@ module alchitry_top (
 
    
     bin_to_dec seven_converter(#DIGITS(4))
-    bin_to_dec duck_converter(#DIGITS(1))
+    
 
 
     always {
@@ -78,42 +78,16 @@ module alchitry_top (
         seven_converter.value = game_datapath.current_attempts_out
         seg.values = seven_converter.digits
         
-        duck_converter.value = game_datapath.current_light_out
         duckler.duck_number = game_datapath.current_light_out
         
-        //io_led[2] = game_datapath.debug_general// timer
-        /*case (duck_converter.digits[0]) {
-    0: led_digit = 9b000000000
-    1: led_digit = 9b000000001
-    2: led_digit = 9b000000010
-    3: led_digit = 9b000000100
-    4: led_digit = 9b000001000
-    5: led_digit = 9b000010000
-    6: led_digit = 9b000100000
-    7: led_digit = 9b001000000
-    8: led_digit = 9b010000000
-    9: led_digit = 9b100000000
-    default: led_digit = 9b000000000
-}*/
-        /*if (duck_converter.digits[0] == d9){
-            io_led[2] = b0
-            io_led[1][7] = 1
-        } else if (duck_converter.digits[0] != 0) {
-            io_led[2] = b0
-            io_led[1][7] = 0
-            io_led[2][duck_converter.digits[0] - 1] = 1
-        } else {
-            io_led[2] = b0
-            io_led[1] = 0
-        }*/
-        //io_led[1] = game_datapath.current_round_out    // p1 score 
+   
         io_led[1] = 0
         io_led[2] = duckler.duck_leds_lit[7:0];      // Lower 8 bits
         io_led[1][7] = duckler.duck_leds_lit[8];     // MSB goes to io_led[1][7]
         //io_led[2] = game_datapath.debug_general   
         io_led[0] = game_datapath.debug_general    
         led[0] = game_datapath.slow_clock_out
-        timer_led = game_datapath.slow_clock_out
+        timer_led = game_datapath.current_timer_out[0]
         led[1] = game_datapath.display_clock_out
         led[2] = game_datapath.current_player_out[0]
         led[6:3] = game_datapath.current_button_out

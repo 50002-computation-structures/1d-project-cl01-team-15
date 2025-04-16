@@ -8,7 +8,7 @@ module button_input_handler(
 ) {
     const CLK_FREQ = $is_sim() ? 1000 : 10000000
 
-    sig conditioned[18];   // Output of conditioners
+
     sig edges[18];         // Rising edge detected
     sig validity
     sig active[9];         // Active buttons (for current player)
@@ -27,7 +27,6 @@ module button_input_handler(
         // Step 1: condition and detect edges
         btn_cond.in = btns
         btn_edge.in = btn_cond.out
-        conditioned = btn_cond.out
         edges = btn_edge.out
         
         validity = 1

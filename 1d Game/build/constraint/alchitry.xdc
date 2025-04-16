@@ -165,7 +165,7 @@ set_property PACKAGE_PIN B1 [get_ports {io_dip[1][5]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {io_dip[1][5]}]
 set_property PULLDOWN true [get_ports {io_dip[1][5]}]
 
-set_property PACKAGE_PIN M6 [get_ports {io_dip[1][6]}]
+set_property PACKAGE_PIN P10 [get_ports {io_dip[1][6]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {io_dip[1][6]}]
 set_property PULLDOWN true [get_ports {io_dip[1][6]}]
 
